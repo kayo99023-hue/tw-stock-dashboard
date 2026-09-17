@@ -13,16 +13,30 @@ import datetime
 import requests
 
 TWSE_URL = "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX"
+PROXY_URL = "https://tw-stock-live.kayo99023.workers.dev/proxy"
 STOCK_CODE_RE = re.compile(r"^[1-9][0-9]{3}$")  # 一般普通股:4碼數字、不以0開頭(排除ETF/受益證券)
 RATIO_MIN_VOLUME = 1_000_000  # 爆量排名的最低今日成交股數門檻,避免冷門股雜訊
+
+
+def fetch_json_with_fallback(url, params):
+    """直接連證交所;某些雲端主機(如 GitHub Actions)的 IP 會被證交所擋掉/逾時,
+    這種情況改走 Cloudflare Worker 代理(該 IP 範圍證交所不會擋)。"""
+    try:
+        resp = requests.get(url, params=params, timeout=15)
+        resp.raise_for_status()
+        return resp.json()
+    except requests.exceptions.RequestException as e:
+        print(f"  直接連線失敗({e}),改用代理重試...")
+        full_url = requests.Request("GET", url, params=params).prepare().url
+        resp = requests.get(PROXY_URL, params={"url": full_url}, timeout=30)
+        resp.raise_for_status()
+        return resp.json()
 
 
 def fetch_day(date_obj):
     """回傳 {code: {name, volume, close, change_dir, change_amt}},失敗或非交易日回傳 None"""
     ds = date_obj.strftime("%Y%m%d")
-    resp = requests.get(TWSE_URL, params={"date": ds, "type": "ALL", "response": "json"}, timeout=20)
-    resp.raise_for_status()
-    j = resp.json()
+    j = fetch_json_with_fallback(TWSE_URL, {"date": ds, "type": "ALL", "response": "json"})
     if j.get("stat") != "OK":
         return None
 

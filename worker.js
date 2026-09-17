@@ -114,10 +114,43 @@ function buildPayload(baselineDoc, liveMap) {
   };
 }
 
+// 給 GitHub Actions(或其他會被證交所擋 IP 的雲端主機)用的通用轉發端點。
+// 只允許轉發到證交所自己的網域,避免被當成公開代理濫用。
+const PROXY_ALLOWED_HOSTS = ["www.twse.com.tw", "mis.twse.com.tw"];
+
+async function handleProxy(request) {
+  const targetUrl = new URL(request.url).searchParams.get("url");
+  if (!targetUrl) {
+    return new Response(JSON.stringify({ error: "missing url" }), { status: 400, headers: corsHeaders() });
+  }
+  let parsed;
+  try {
+    parsed = new URL(targetUrl);
+  } catch {
+    return new Response(JSON.stringify({ error: "bad url" }), { status: 400, headers: corsHeaders() });
+  }
+  if (!PROXY_ALLOWED_HOSTS.includes(parsed.hostname)) {
+    return new Response(JSON.stringify({ error: "host not allowed" }), { status: 403, headers: corsHeaders() });
+  }
+  const r = await fetch(targetUrl, {
+    headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
+  });
+  const body = await r.arrayBuffer();
+  return new Response(body, {
+    status: r.status,
+    headers: { ...corsHeaders(), "Content-Type": r.headers.get("content-type") || "application/json" },
+  });
+}
+
 export default {
   async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: corsHeaders() });
+    }
+
+    const { pathname } = new URL(request.url);
+    if (pathname === "/proxy") {
+      return handleProxy(request);
     }
 
     const cacheKey = new Request(new URL(request.url).origin + "/live-cache", request);
