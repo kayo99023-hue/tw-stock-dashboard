@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>今日成交量前100名</title>
+<style>
+:root{
+  --bg:#0f1420; --panel:#161d2e; --panel-2:#1c2438; --border:#2a3350;
+  --text:#e8ecf5; --text-dim:#8b93ab; --accent:#4f8cff; --accent-2:#a78bfa;
+  --up:#ff5c5c; --down:#2fbf71; --gold:#ffc94d; --silver:#c9d2e0; --bronze:#e0995e;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; padding:0; background:linear-gradient(180deg,#0b0f18,#0f1420 400px);
+  color:var(--text); font-family:"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+.wrap{max-width:1100px; margin:0 auto; padding:32px 20px 80px;}
+header.top{margin-bottom:28px;}
+header.top h1{font-size:28px; margin:0 0 6px; font-weight:800; letter-spacing:0.5px;}
+header.top .sub{color:var(--text-dim); font-size:14px; line-height:1.8;}
+header.top .sub b{color:var(--text);}
+a{color:var(--accent); text-decoration:none;}
+a:hover{text-decoration:underline;}
+.section{margin-top:36px;}
+.section-title{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
+.section-title h2{font-size:19px; margin:0; display:flex; align-items:center; gap:8px;}
+.section-title .note{font-size:12.5px; color:var(--text-dim);}
+.badge{display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:var(--panel-2); color:var(--text-dim); border:1px solid var(--border);}
+.card-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+@media (max-width:900px){.card-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:520px){.card-grid{grid-template-columns:1fr;}}
+.card{
+  background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:14px 14px 12px;
+  position:relative; overflow:hidden; transition:transform .15s ease, border-color .15s ease;
+}
+.card:hover{transform:translateY(-2px); border-color:var(--accent);}
+.card .rank{
+  position:absolute; top:10px; right:12px; font-size:22px; font-weight:800; opacity:.18;
+}
+.card.r1 .rank{color:var(--gold); opacity:.5;} .card.r2 .rank{color:var(--silver); opacity:.5;} .card.r3 .rank{color:var(--bronze); opacity:.5;}
+.card .rankchip{
+  display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:6px;
+  background:var(--panel-2); font-size:12px; font-weight:700; color:var(--text-dim); margin-bottom:8px;
+}
+.card.r1 .rankchip{background:var(--gold); color:#3a2c00;}
+.card.r2 .rankchip{background:var(--silver); color:#20232b;}
+.card.r3 .rankchip{background:var(--bronze); color:#3a2200;}
+.card .code{font-size:12px; color:var(--text-dim);}
+.card .name{font-size:16px; font-weight:700; margin:2px 0 8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.card .metric{font-size:20px; font-weight:800;}
+.card .metric.up{color:var(--up);} .card .metric.down{color:var(--down);}
+.card .price-row{display:flex; align-items:baseline; gap:6px; margin-top:6px; font-size:12.5px; color:var(--text-dim);}
+.card .price-row .chg.up{color:var(--up);} .card .price-row .chg.down{color:var(--down);}
+.table-scroll{overflow-x:auto; border-radius:12px; border:1px solid var(--border);}
+table{width:100%; min-width:640px; border-collapse:collapse; background:var(--panel);}
+thead th{
+  text-align:left; font-size:12.5px; color:var(--text-dim); font-weight:600; padding:10px 14px;
+  background:var(--panel-2); border-bottom:1px solid var(--border);
+}
+tbody td{padding:10px 14px; border-bottom:1px solid var(--border); font-size:14px;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--panel-2);}
+td.num{text-align:right; font-variant-numeric:tabular-nums;}
+.up{color:var(--up);} .down{color:var(--down);}
+.rank-cell{width:40px; color:var(--text-dim); font-weight:700;}
+.rank-cell.r1{color:var(--gold);} .rank-cell.r2{color:var(--silver);} .rank-cell.r3{color:var(--bronze);}
+.backlink{display:inline-block; margin-bottom:18px; font-size:14px;}
+.cta{
+  display:inline-flex; align-items:center; gap:6px; margin-top:6px; font-size:13.5px;
+  padding:8px 14px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); color:var(--accent);
+}
+.cta:hover{border-color:var(--accent); text-decoration:none;}
+footer{margin-top:56px; padding-top:20px; border-top:1px solid var(--border); color:var(--text-dim); font-size:12.5px; line-height:2;}
+
+.clickable-stock{cursor:pointer;}
+.card.clickable-stock .chart-hint{position:absolute; bottom:12px; right:12px; font-size:14px; opacity:.35;}
+.card.clickable-stock:hover .chart-hint{opacity:.9;}
+tr.clickable-stock:hover{background:var(--panel-2);}
+
+.chart-overlay{
+  position:fixed; inset:0; background:rgba(6,9,16,.72); backdrop-filter:blur(2px);
+  display:flex; align-items:center; justify-content:center; z-index:1000; padding:16px;
+}
+.chart-overlay[hidden]{display:none;}
+.chart-modal{
+  width:min(980px,100%); max-height:92vh; overflow:auto; background:var(--panel);
+  border:1px solid var(--border); border-radius:16px; padding:18px 20px 20px;
+}
+.chart-modal-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+.chart-title{font-size:19px; font-weight:800;}
+.chart-sub{font-size:12.5px; color:var(--text-dim); margin-top:2px;}
+.chart-close{
+  background:var(--panel-2); border:1px solid var(--border); color:var(--text); border-radius:8px;
+  width:32px; height:32px; font-size:15px; cursor:pointer; flex:none;
+}
+.chart-close:hover{border-color:var(--accent);}
+.chart-legend{margin-top:10px; font-size:12.5px; color:var(--text-dim);}
+.chart-legend .lg-row{display:flex; flex-wrap:wrap; gap:12px; padding:4px 0;}
+.chart-legend .lg-main span{color:var(--text-dim);}
+.chart-legend .lg-main b{color:var(--text); font-size:14px;}
+.chart-legend .lg-main .up{color:var(--up);} .chart-legend .lg-main .down{color:var(--down);}
+.chart-legend .lg-sma span{font-weight:600;}
+.chart-range-btns{display:flex; gap:6px; margin:10px 0 4px;}
+.chart-range-btns button{
+  background:var(--panel-2); border:1px solid var(--border); color:var(--text-dim); font-size:12px;
+  padding:5px 12px; border-radius:999px; cursor:pointer;
+}
+.chart-range-btns button.active{color:var(--text); border-color:var(--accent); background:rgba(79,140,255,.15);}
+.chart-container{width:100%; height:440px; margin-top:8px;}
+.chart-note{margin-top:10px; font-size:11.5px; color:var(--text-dim);}
+@media (max-width:640px){.chart-container{height:360px;} .chart-legend .lg-row{gap:8px; font-size:11.5px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="backlink" href="index.html">← 回首頁</a>
+  <header class="top">
+    <h1>今日成交量 Top 100</h1>
+    <div class="sub">交易日:<b>2026-09-16</b> ・ 資料來源:證交所每日收盤行情(MI_INDEX)</div>
+  </header>
+  <div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>排名</th><th>代號</th><th>名稱</th>
+        <th style="text-align:right">成交量</th><th style="text-align:right">收盤價</th><th style="text-align:right">漲跌幅</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr class="clickable-stock" data-code="2409" data-name="友達">
+          <td class="rank-cell r1">1</td>
+          <td>2409</td>
+          <td>友達</td>
+          <td class="num">262,802 張</td>
+          <td class="num">29.40</td>
+          <td class="num up">+5.38%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2303" data-name="聯電">
+          <td class="rank-cell r2">2</td>
+          <td>2303</td>
+          <td>聯電</td>
+          <td class="num">117,166 張</td>
+          <td class="num">142.00</td>
+          <td class="num up">+2.53%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3481" data-name="群創">
+          <td class="rank-cell r3">3</td>
+          <td>3481</td>
+          <td>群創</td>
+          <td class="num">99,549 張</td>
+          <td class="num">48.70</td>
+          <td class="num up">+4.06%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6770" data-name="力積電">
+          <td class="rank-cell ">4</td>
+          <td>6770</td>
+          <td>力積電</td>
+          <td class="num">91,881 張</td>
+          <td class="num">69.90</td>
+          <td class="num up">+4.48%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2344" data-name="華邦電">
+          <td class="rank-cell ">5</td>
+          <td>2344</td>
+          <td>華邦電</td>
+          <td class="num">83,219 張</td>
+          <td class="num">169.00</td>
+          <td class="num up">+5.96%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2887" data-name="台新新光金">
+          <td class="rank-cell ">6</td>
+          <td>2887</td>
+          <td>台新新光金</td>
+          <td class="num">64,632 張</td>
+          <td class="num">44.40</td>
+          <td class="num up">+2.30%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2481" data-name="強茂">
+          <td class="rank-cell ">7</td>
+          <td>2481</td>
+          <td>強茂</td>
+          <td class="num">62,195 張</td>
+          <td class="num">168.50</td>
+          <td class="num up">+9.77%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2426" data-name="鼎元">
+          <td class="rank-cell ">8</td>
+          <td>2426</td>
+          <td>鼎元</td>
+          <td class="num">50,844 張</td>
+          <td class="num">99.80</td>
+          <td class="num up">+9.91%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2891" data-name="中信金">
+          <td class="rank-cell ">9</td>
+          <td>2891</td>
+          <td>中信金</td>
+          <td class="num">50,440 張</td>
+          <td class="num">70.80</td>
+          <td class="num up">+1.58%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1303" data-name="南亞">
+          <td class="rank-cell ">10</td>
+          <td>1303</td>
+          <td>南亞</td>
+          <td class="num">48,008 張</td>
+          <td class="num">224.00</td>
+          <td class="num up">+1.13%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2468" data-name="華經">
+          <td class="rank-cell ">11</td>
+          <td>2468</td>
+          <td>華經</td>
+          <td class="num">46,253 張</td>
+          <td class="num">43.65</td>
+          <td class="num up">+0.92%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2883" data-name="凱基金">
+          <td class="rank-cell ">12</td>
+          <td>2883</td>
+          <td>凱基金</td>
+          <td class="num">44,170 張</td>
+          <td class="num">39.15</td>
+          <td class="num up">+2.62%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2884" data-name="玉山金">
+          <td class="rank-cell ">13</td>
+          <td>2884</td>
+          <td>玉山金</td>
+          <td class="num">41,915 張</td>
+          <td class="num">46.45</td>
+          <td class="num up">+1.75%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2609" data-name="陽明">
+          <td class="rank-cell ">14</td>
+          <td>2609</td>
+          <td>陽明</td>
+          <td class="num">41,410 張</td>
+          <td class="num">60.20</td>
+          <td class="num up">+2.38%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2801" data-name="彰銀">
+          <td class="rank-cell ">15</td>
+          <td>2801</td>
+          <td>彰銀</td>
+          <td class="num">40,587 張</td>
+          <td class="num">28.90</td>
+          <td class="num up">+3.21%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2890" data-name="永豐金">
+          <td class="rank-cell ">16</td>
+          <td>2890</td>
+          <td>永豐金</td>
+          <td class="num">39,272 張</td>
+          <td class="num">45.30</td>
+          <td class="num up">+1.68%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2408" data-name="南亞科">
+          <td class="rank-cell ">17</td>
+          <td>2408</td>
+          <td>南亞科</td>
+          <td class="num">36,437 張</td>
+          <td class="num">492.50</td>
+          <td class="num up">+5.80%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2489" data-name="瑞軒">
+          <td class="rank-cell ">18</td>
+          <td>2489</td>
+          <td>瑞軒</td>
+          <td class="num">36,282 張</td>
+          <td class="num">41.25</td>
+          <td class="num up">+10.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3231" data-name="緯創">
+          <td class="rank-cell ">19</td>
+          <td>3231</td>
+          <td>緯創</td>
+          <td class="num">32,630 張</td>
+          <td class="num">183.00</td>
+          <td class="num up">+0.27%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2834" data-name="臺企銀">
+          <td class="rank-cell ">20</td>
+          <td>2834</td>
+          <td>臺企銀</td>
+          <td class="num">29,665 張</td>
+          <td class="num">18.20</td>
+          <td class="num up">+1.11%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1528" data-name="恩德">
+          <td class="rank-cell ">21</td>
+          <td>1528</td>
+          <td>恩德</td>
+          <td class="num">29,030 張</td>
+          <td class="num">24.95</td>
+          <td class="num up">+1.22%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2327" data-name="國巨*">
+          <td class="rank-cell ">22</td>
+          <td>2327</td>
+          <td>國巨*</td>
+          <td class="num">27,855 張</td>
+          <td class="num">536.00</td>
+          <td class="num down">-0.19%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2882" data-name="國泰金">
+          <td class="rank-cell ">23</td>
+          <td>2882</td>
+          <td>國泰金</td>
+          <td class="num">27,371 張</td>
+          <td class="num">112.50</td>
+          <td class="num up">+2.27%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2338" data-name="光罩">
+          <td class="rank-cell ">24</td>
+          <td>2338</td>
+          <td>光罩</td>
+          <td class="num">26,655 張</td>
+          <td class="num">50.70</td>
+          <td class="num up">+9.98%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2886" data-name="兆豐金">
+          <td class="rank-cell ">25</td>
+          <td>2886</td>
+          <td>兆豐金</td>
+          <td class="num">26,463 張</td>
+          <td class="num">50.90</td>
+          <td class="num down">-1.74%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2002" data-name="中鋼">
+          <td class="rank-cell ">26</td>
+          <td>2002</td>
+          <td>中鋼</td>
+          <td class="num">26,366 張</td>
+          <td class="num">18.65</td>
+          <td class="num flat">0.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2305" data-name="全友">
+          <td class="rank-cell ">27</td>
+          <td>2305</td>
+          <td>全友</td>
+          <td class="num">25,858 張</td>
+          <td class="num">49.40</td>
+          <td class="num up">+9.90%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2615" data-name="萬海">
+          <td class="rank-cell ">28</td>
+          <td>2615</td>
+          <td>萬海</td>
+          <td class="num">25,798 張</td>
+          <td class="num">115.00</td>
+          <td class="num up">+2.68%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6505" data-name="台塑化">
+          <td class="rank-cell ">29</td>
+          <td>6505</td>
+          <td>台塑化</td>
+          <td class="num">24,129 張</td>
+          <td class="num">80.50</td>
+          <td class="num down">-2.90%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2892" data-name="第一金">
+          <td class="rank-cell ">30</td>
+          <td>2892</td>
+          <td>第一金</td>
+          <td class="num">24,115 張</td>
+          <td class="num">40.00</td>
+          <td class="num up">+1.14%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2324" data-name="仁寶">
+          <td class="rank-cell ">31</td>
+          <td>2324</td>
+          <td>仁寶</td>
+          <td class="num">22,476 張</td>
+          <td class="num">37.35</td>
+          <td class="num up">+1.08%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2337" data-name="旺宏">
+          <td class="rank-cell ">32</td>
+          <td>2337</td>
+          <td>旺宏</td>
+          <td class="num">22,352 張</td>
+          <td class="num">119.00</td>
+          <td class="num up">+3.93%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="4958" data-name="臻鼎-KY">
+          <td class="rank-cell ">33</td>
+          <td>4958</td>
+          <td>臻鼎-KY</td>
+          <td class="num">21,887 張</td>
+          <td class="num">493.50</td>
+          <td class="num up">+3.35%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1709" data-name="和益">
+          <td class="rank-cell ">34</td>
+          <td>1709</td>
+          <td>和益</td>
+          <td class="num">21,302 張</td>
+          <td class="num">39.05</td>
+          <td class="num up">+10.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6213" data-name="聯茂">
+          <td class="rank-cell ">35</td>
+          <td>6213</td>
+          <td>聯茂</td>
+          <td class="num">21,280 張</td>
+          <td class="num">550.00</td>
+          <td class="num up">+5.97%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3605" data-name="宏致">
+          <td class="rank-cell ">36</td>
+          <td>3605</td>
+          <td>宏致</td>
+          <td class="num">20,988 張</td>
+          <td class="num">140.00</td>
+          <td class="num up">+9.80%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2330" data-name="台積電">
+          <td class="rank-cell ">37</td>
+          <td>2330</td>
+          <td>台積電</td>
+          <td class="num">20,919 張</td>
+          <td class="num">2,380.00</td>
+          <td class="num flat">0.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2881" data-name="富邦金">
+          <td class="rank-cell ">38</td>
+          <td>2881</td>
+          <td>富邦金</td>
+          <td class="num">20,793 張</td>
+          <td class="num">153.00</td>
+          <td class="num up">+1.32%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="5880" data-name="合庫金">
+          <td class="rank-cell ">39</td>
+          <td>5880</td>
+          <td>合庫金</td>
+          <td class="num">19,851 張</td>
+          <td class="num">27.35</td>
+          <td class="num up">+1.30%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2317" data-name="鴻海">
+          <td class="rank-cell ">40</td>
+          <td>2317</td>
+          <td>鴻海</td>
+          <td class="num">19,737 張</td>
+          <td class="num">248.00</td>
+          <td class="num up">+0.61%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2455" data-name="全新">
+          <td class="rank-cell ">41</td>
+          <td>2455</td>
+          <td>全新</td>
+          <td class="num">19,718 張</td>
+          <td class="num">515.00</td>
+          <td class="num down">-0.96%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3016" data-name="嘉晶">
+          <td class="rank-cell ">42</td>
+          <td>3016</td>
+          <td>嘉晶</td>
+          <td class="num">19,161 張</td>
+          <td class="num">115.50</td>
+          <td class="num up">+5.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2889" data-name="國票金">
+          <td class="rank-cell ">43</td>
+          <td>2889</td>
+          <td>國票金</td>
+          <td class="num">19,057 張</td>
+          <td class="num">17.30</td>
+          <td class="num up">+2.67%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2313" data-name="華通">
+          <td class="rank-cell ">44</td>
+          <td>2313</td>
+          <td>華通</td>
+          <td class="num">18,970 張</td>
+          <td class="num">225.00</td>
+          <td class="num up">+2.97%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1301" data-name="台塑">
+          <td class="rank-cell ">45</td>
+          <td>1301</td>
+          <td>台塑</td>
+          <td class="num">18,778 張</td>
+          <td class="num">62.40</td>
+          <td class="num up">+0.65%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1101" data-name="台泥">
+          <td class="rank-cell ">46</td>
+          <td>1101</td>
+          <td>台泥</td>
+          <td class="num">18,248 張</td>
+          <td class="num">24.05</td>
+          <td class="num up">+1.05%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2880" data-name="華南金">
+          <td class="rank-cell ">47</td>
+          <td>2880</td>
+          <td>華南金</td>
+          <td class="num">18,245 張</td>
+          <td class="num">47.35</td>
+          <td class="num up">+0.96%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2353" data-name="宏碁">
+          <td class="rank-cell ">48</td>
+          <td>2353</td>
+          <td>宏碁</td>
+          <td class="num">18,043 張</td>
+          <td class="num">32.00</td>
+          <td class="num up">+3.56%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1314" data-name="中石化">
+          <td class="rank-cell ">49</td>
+          <td>1314</td>
+          <td>中石化</td>
+          <td class="num">17,975 張</td>
+          <td class="num">8.15</td>
+          <td class="num up">+0.49%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6168" data-name="宏齊">
+          <td class="rank-cell ">50</td>
+          <td>6168</td>
+          <td>宏齊</td>
+          <td class="num">17,480 張</td>
+          <td class="num">32.15</td>
+          <td class="num up">+9.91%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2382" data-name="廣達">
+          <td class="rank-cell ">51</td>
+          <td>2382</td>
+          <td>廣達</td>
+          <td class="num">16,995 張</td>
+          <td class="num">340.50</td>
+          <td class="num up">+2.25%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6116" data-name="彩晶">
+          <td class="rank-cell ">52</td>
+          <td>6116</td>
+          <td>彩晶</td>
+          <td class="num">16,857 張</td>
+          <td class="num">14.15</td>
+          <td class="num up">+3.66%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1326" data-name="台化">
+          <td class="rank-cell ">53</td>
+          <td>1326</td>
+          <td>台化</td>
+          <td class="num">15,903 張</td>
+          <td class="num">65.80</td>
+          <td class="num flat">0.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2492" data-name="華新科">
+          <td class="rank-cell ">54</td>
+          <td>2492</td>
+          <td>華新科</td>
+          <td class="num">15,103 張</td>
+          <td class="num">307.50</td>
+          <td class="num up">+2.50%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2412" data-name="中華電">
+          <td class="rank-cell ">55</td>
+          <td>2412</td>
+          <td>中華電</td>
+          <td class="num">14,826 張</td>
+          <td class="num">143.50</td>
+          <td class="num flat">0.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1312" data-name="國喬">
+          <td class="rank-cell ">56</td>
+          <td>1312</td>
+          <td>國喬</td>
+          <td class="num">14,774 張</td>
+          <td class="num">14.80</td>
+          <td class="num up">+3.14%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2885" data-name="元大金">
+          <td class="rank-cell ">57</td>
+          <td>2885</td>
+          <td>元大金</td>
+          <td class="num">14,348 張</td>
+          <td class="num">69.40</td>
+          <td class="num up">+1.61%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2027" data-name="大成鋼">
+          <td class="rank-cell ">58</td>
+          <td>2027</td>
+          <td>大成鋼</td>
+          <td class="num">14,324 張</td>
+          <td class="num">46.55</td>
+          <td class="num up">+3.44%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2301" data-name="光寶科">
+          <td class="rank-cell ">59</td>
+          <td>2301</td>
+          <td>光寶科</td>
+          <td class="num">13,635 張</td>
+          <td class="num">277.00</td>
+          <td class="num up">+1.09%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3042" data-name="晶技">
+          <td class="rank-cell ">60</td>
+          <td>3042</td>
+          <td>晶技</td>
+          <td class="num">13,592 張</td>
+          <td class="num">185.50</td>
+          <td class="num up">+2.49%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="9904" data-name="寶成">
+          <td class="rank-cell ">61</td>
+          <td>9904</td>
+          <td>寶成</td>
+          <td class="num">12,968 張</td>
+          <td class="num">24.50</td>
+          <td class="num up">+1.03%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2605" data-name="新興">
+          <td class="rank-cell ">62</td>
+          <td>2605</td>
+          <td>新興</td>
+          <td class="num">12,864 張</td>
+          <td class="num">36.05</td>
+          <td class="num up">+2.85%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2603" data-name="長榮">
+          <td class="rank-cell ">63</td>
+          <td>2603</td>
+          <td>長榮</td>
+          <td class="num">12,583 張</td>
+          <td class="num">239.00</td>
+          <td class="num up">+2.36%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="8039" data-name="台虹">
+          <td class="rank-cell ">64</td>
+          <td>8039</td>
+          <td>台虹</td>
+          <td class="num">12,425 張</td>
+          <td class="num">275.50</td>
+          <td class="num up">+2.04%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2610" data-name="華航">
+          <td class="rank-cell ">65</td>
+          <td>2610</td>
+          <td>華航</td>
+          <td class="num">12,214 張</td>
+          <td class="num">19.95</td>
+          <td class="num up">+0.25%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3006" data-name="晶豪科">
+          <td class="rank-cell ">66</td>
+          <td>3006</td>
+          <td>晶豪科</td>
+          <td class="num">12,192 張</td>
+          <td class="num">281.00</td>
+          <td class="num up">+6.44%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1802" data-name="台玻">
+          <td class="rank-cell ">67</td>
+          <td>1802</td>
+          <td>台玻</td>
+          <td class="num">12,004 張</td>
+          <td class="num">58.50</td>
+          <td class="num up">+4.46%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3037" data-name="欣興">
+          <td class="rank-cell ">68</td>
+          <td>3037</td>
+          <td>欣興</td>
+          <td class="num">11,860 張</td>
+          <td class="num">961.00</td>
+          <td class="num up">+1.05%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2542" data-name="興富發">
+          <td class="rank-cell ">69</td>
+          <td>2542</td>
+          <td>興富發</td>
+          <td class="num">11,787 張</td>
+          <td class="num">45.90</td>
+          <td class="num up">+1.44%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1402" data-name="遠東新">
+          <td class="rank-cell ">70</td>
+          <td>1402</td>
+          <td>遠東新</td>
+          <td class="num">11,779 張</td>
+          <td class="num">27.40</td>
+          <td class="num down">-1.44%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3029" data-name="零壹">
+          <td class="rank-cell ">71</td>
+          <td>3029</td>
+          <td>零壹</td>
+          <td class="num">11,772 張</td>
+          <td class="num">119.50</td>
+          <td class="num up">+0.84%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2351" data-name="順德">
+          <td class="rank-cell ">72</td>
+          <td>2351</td>
+          <td>順德</td>
+          <td class="num">11,723 張</td>
+          <td class="num">236.00</td>
+          <td class="num down">-6.16%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2332" data-name="友訊">
+          <td class="rank-cell ">73</td>
+          <td>2332</td>
+          <td>友訊</td>
+          <td class="num">11,634 張</td>
+          <td class="num">19.35</td>
+          <td class="num up">+2.93%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6706" data-name="惠特">
+          <td class="rank-cell ">74</td>
+          <td>6706</td>
+          <td>惠特</td>
+          <td class="num">11,525 張</td>
+          <td class="num">147.00</td>
+          <td class="num up">+2.44%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2812" data-name="台中銀">
+          <td class="rank-cell ">75</td>
+          <td>2812</td>
+          <td>台中銀</td>
+          <td class="num">11,508 張</td>
+          <td class="num">19.30</td>
+          <td class="num down">-0.26%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6209" data-name="今國光">
+          <td class="rank-cell ">76</td>
+          <td>6209</td>
+          <td>今國光</td>
+          <td class="num">11,325 張</td>
+          <td class="num">80.00</td>
+          <td class="num up">+5.82%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2618" data-name="長榮航">
+          <td class="rank-cell ">77</td>
+          <td>2618</td>
+          <td>長榮航</td>
+          <td class="num">10,973 張</td>
+          <td class="num">41.30</td>
+          <td class="num up">+0.24%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3189" data-name="景碩">
+          <td class="rank-cell ">78</td>
+          <td>3189</td>
+          <td>景碩</td>
+          <td class="num">10,957 張</td>
+          <td class="num">820.00</td>
+          <td class="num up">+3.14%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="9105" data-name="泰金寶-DR">
+          <td class="rank-cell ">79</td>
+          <td>9105</td>
+          <td>泰金寶-DR</td>
+          <td class="num">10,940 張</td>
+          <td class="num">8.44</td>
+          <td class="num up">+0.24%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3714" data-name="富采">
+          <td class="rank-cell ">80</td>
+          <td>3714</td>
+          <td>富采</td>
+          <td class="num">10,803 張</td>
+          <td class="num">64.30</td>
+          <td class="num up">+6.99%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2312" data-name="金寶">
+          <td class="rank-cell ">81</td>
+          <td>2312</td>
+          <td>金寶</td>
+          <td class="num">10,733 張</td>
+          <td class="num">30.95</td>
+          <td class="num down">-0.48%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2308" data-name="台達電">
+          <td class="rank-cell ">82</td>
+          <td>2308</td>
+          <td>台達電</td>
+          <td class="num">10,674 張</td>
+          <td class="num">1,710.00</td>
+          <td class="num up">+2.40%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2634" data-name="漢翔">
+          <td class="rank-cell ">83</td>
+          <td>2634</td>
+          <td>漢翔</td>
+          <td class="num">10,249 張</td>
+          <td class="num">65.00</td>
+          <td class="num up">+4.84%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6005" data-name="群益證">
+          <td class="rank-cell ">84</td>
+          <td>6005</td>
+          <td>群益證</td>
+          <td class="num">9,756 張</td>
+          <td class="num">30.85</td>
+          <td class="num down">-0.80%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1605" data-name="華新">
+          <td class="rank-cell ">85</td>
+          <td>1605</td>
+          <td>華新</td>
+          <td class="num">9,679 張</td>
+          <td class="num">36.75</td>
+          <td class="num up">+1.10%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="4915" data-name="致伸">
+          <td class="rank-cell ">86</td>
+          <td>4915</td>
+          <td>致伸</td>
+          <td class="num">9,538 張</td>
+          <td class="num">65.60</td>
+          <td class="num flat">0.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3711" data-name="日月光投控">
+          <td class="rank-cell ">87</td>
+          <td>3711</td>
+          <td>日月光投控</td>
+          <td class="num">9,510 張</td>
+          <td class="num">605.00</td>
+          <td class="num up">+2.20%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6669" data-name="緯穎">
+          <td class="rank-cell ">88</td>
+          <td>6669</td>
+          <td>緯穎</td>
+          <td class="num">9,126 張</td>
+          <td class="num">2,165.00</td>
+          <td class="num down">-6.48%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2845" data-name="遠東銀">
+          <td class="rank-cell ">89</td>
+          <td>2845</td>
+          <td>遠東銀</td>
+          <td class="num">8,908 張</td>
+          <td class="num">13.60</td>
+          <td class="num flat">0.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2105" data-name="正新">
+          <td class="rank-cell ">90</td>
+          <td>2105</td>
+          <td>正新</td>
+          <td class="num">8,791 張</td>
+          <td class="num">29.90</td>
+          <td class="num down">-0.33%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3450" data-name="聯鈞">
+          <td class="rank-cell ">91</td>
+          <td>3450</td>
+          <td>聯鈞</td>
+          <td class="num">8,784 張</td>
+          <td class="num">541.00</td>
+          <td class="num up">+9.85%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1727" data-name="中華化">
+          <td class="rank-cell ">92</td>
+          <td>1727</td>
+          <td>中華化</td>
+          <td class="num">8,783 張</td>
+          <td class="num">95.60</td>
+          <td class="num up">+6.10%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="4763" data-name="材料*-KY">
+          <td class="rank-cell ">93</td>
+          <td>4763</td>
+          <td>材料*-KY</td>
+          <td class="num">8,645 張</td>
+          <td class="num">44.90</td>
+          <td class="num flat">0.00%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2356" data-name="英業達">
+          <td class="rank-cell ">94</td>
+          <td>2356</td>
+          <td>英業達</td>
+          <td class="num">8,636 張</td>
+          <td class="num">61.70</td>
+          <td class="num up">+1.98%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="8150" data-name="南茂">
+          <td class="rank-cell ">95</td>
+          <td>8150</td>
+          <td>南茂</td>
+          <td class="num">8,427 張</td>
+          <td class="num">87.10</td>
+          <td class="num up">+3.20%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="8021" data-name="尖點">
+          <td class="rank-cell ">96</td>
+          <td>8021</td>
+          <td>尖點</td>
+          <td class="num">8,327 張</td>
+          <td class="num">440.00</td>
+          <td class="num up">+1.97%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1409" data-name="新纖">
+          <td class="rank-cell ">97</td>
+          <td>1409</td>
+          <td>新纖</td>
+          <td class="num">8,276 張</td>
+          <td class="num">23.95</td>
+          <td class="num up">+0.21%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3045" data-name="台灣大">
+          <td class="rank-cell ">98</td>
+          <td>3045</td>
+          <td>台灣大</td>
+          <td class="num">8,257 張</td>
+          <td class="num">124.50</td>
+          <td class="num up">+0.40%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3026" data-name="禾伸堂">
+          <td class="rank-cell ">99</td>
+          <td>3026</td>
+          <td>禾伸堂</td>
+          <td class="num">8,067 張</td>
+          <td class="num">772.00</td>
+          <td class="num up">+6.34%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="8046" data-name="南電">
+          <td class="rank-cell ">100</td>
+          <td>8046</td>
+          <td>南電</td>
+          <td class="num">7,955 張</td>
+          <td class="num">1,105.00</td>
+          <td class="num up">+1.84%</td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+  <footer>資料每日收盤後才會更新,重新產生請依序執行 fetch_data.py 與 build_html.py。</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="history_data.js"></script>
+<script src="chart.js"></script>
+<script>
+document.addEventListener('click', function (e) {
+  var el = e.target.closest('.clickable-stock');
+  if (el) window.openStockChart(el.dataset.code, el.dataset.name);
+});
+</script>
+
+</body>
+</html>
