@@ -1,7 +1,7 @@
 /* 盤中即時更新:輪詢 Cloudflare Worker,盤中(9:00-13:30 台北時間,週一到週五)每分鐘刷新一次 */
 (function () {
   // 部署 Worker 後,把這裡換成你自己的 Worker 網址
-  const WORKER_URL = "https://tw-stock-live.YOUR_SUBDOMAIN.workers.dev/";
+  const WORKER_URL = "https://tw-stock-live.kayo99023.workers.dev/";
   const POLL_MS = 60000;
 
   const UP = "up", DOWN = "down";
@@ -90,11 +90,7 @@
     el.textContent = text;
   }
 
-  async function poll() {
-    if (!isMarketHours()) {
-      setStatus("idle", "⚪ 非盤中時段,以上為最近一次收盤資料(9:00-13:30 台北時間會自動即時更新)");
-      return;
-    }
+  async function doUpdate() {
     setStatus("loading", "🔄 更新中…");
     try {
       const resp = await fetch(WORKER_URL, { cache: "no-store" });
@@ -124,8 +120,19 @@
     }
   }
 
+  function poll() {
+    if (!isMarketHours()) {
+      setStatus("idle", "⚪ 非盤中時段,以上為最近一次收盤資料(9:00-13:30 台北時間會自動即時更新)");
+      return;
+    }
+    doUpdate();
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     poll();
     setInterval(poll, POLL_MS);
   });
+
+  // 手動測試用:在瀏覽器 Console 打 refreshLiveNow() 可以無視盤中時段限制,強制抓一次即時資料
+  window.refreshLiveNow = doUpdate;
 })();
