@@ -21,8 +21,35 @@ def sma(series, window):
     return series.rolling(window).mean()
 
 
-def build_one(code, df):
+def _num(v):
+    return float(str(v).replace(",", ""))
+
+
+def patch_today_if_missing(df, today_str, official):
+    """Yahoo Finance 有些冷門股當天收盤資料會晚幾小時甚至隔天才更新,
+    如果抓到的歷史最後一天不是「今天」,就用證交所官方今日OHLCV補上這一根K棒,
+    確保圖表一定看得到最新的交易日。"""
+    if official is None:
+        return df
+    today_ts = pd.Timestamp(today_str)
+    if not df.empty and df.index[-1] >= today_ts:
+        return df
+    row = pd.DataFrame(
+        {
+            "Open": [_num(official["open"])],
+            "High": [_num(official["high"])],
+            "Low": [_num(official["low"])],
+            "Close": [_num(official["close"])],
+            "Volume": [official["volume"]],
+        },
+        index=[today_ts],
+    )
+    return pd.concat([df, row])
+
+
+def build_one(code, df, today_str=None, official=None):
     df = df.dropna(subset=["Close"]).copy()
+    df = patch_today_if_missing(df, today_str, official)
     if df.empty:
         return None
     df["vol_ma5"] = sma(df["Volume"], VOL_MA_WINDOWS[0])
@@ -55,13 +82,12 @@ def main():
     with open("data.json", "r", encoding="utf-8") as f:
         d = json.load(f)
 
-    codes = set()
-    for it in d["top100_by_volume"]:
-        codes.add(it["code"])
-    for it in d["top10_by_ratio"]:
-        codes.add(it["code"])
-    codes = sorted(codes)
-    print(f"需要抓歷史資料的股票數: {len(codes)}")
+    today_str = d["today"]
+    official = {}
+    for it in d["top100_by_volume"] + d["top10_by_ratio"]:
+        official[it["code"]] = it
+    codes = sorted(official.keys())
+    print(f"需要抓歷史資料的股票數: {len(codes)}(今日交易日:{today_str})")
 
     tickers = [f"{c}.TW" for c in codes]
     result = {}
@@ -95,7 +121,7 @@ def main():
             except KeyError:
                 print(f"  {ticker} 無資料")
                 continue
-            rec = build_one(code, sub)
+            rec = build_one(code, sub, today_str=today_str, official=official.get(code))
             if rec:
                 result[code] = rec
             else:

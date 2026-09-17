@@ -61,6 +61,9 @@ def fetch_day(date_obj):
         out[code] = {
             "name": name,
             "volume": volume,
+            "open": row[5],
+            "high": row[6],
+            "low": row[7],
             "close": close,
             "change_dir": change_dir,
             "change_amt": change_amt,
