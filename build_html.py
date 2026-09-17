@@ -21,6 +21,13 @@ header.top{margin-bottom:28px;}
 header.top h1{font-size:28px; margin:0 0 6px; font-weight:800; letter-spacing:0.5px;}
 header.top .sub{color:var(--text-dim); font-size:14px; line-height:1.8;}
 header.top .sub b{color:var(--text);}
+.live-status{
+  display:inline-block; margin-top:10px; font-size:12.5px; padding:5px 12px; border-radius:999px;
+  background:var(--panel-2); border:1px solid var(--border); color:var(--text-dim);
+}
+.live-status.live{color:var(--up); border-color:rgba(255,92,92,.4); background:rgba(255,92,92,.08);}
+.live-status.loading{color:var(--accent);}
+.live-status.error{color:#ffc94d;}
 a{color:var(--accent); text-decoration:none;}
 a:hover{text-decoration:underline;}
 .section{margin-top:36px;}
@@ -117,6 +124,7 @@ SCRIPTS = """
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 <script src="history_data.js"></script>
 <script src="chart.js"></script>
+<script src="live.js"></script>
 <script>
 document.addEventListener('click', function (e) {
   var el = e.target.closest('.clickable-stock');
@@ -230,6 +238,7 @@ INDEX_HTML = f"""<!doctype html>
       交易日:<b>{D['today']}</b> ・ 比較基準(近三個交易日):<b>{', '.join(D['prev_days'])}</b><br>
       資料來源:證交所每日收盤行情(MI_INDEX) ・ 共納入 <b>{D['total_stocks']}</b> 檔上市普通股 ・ 產生時間 {D['generated_at']}
     </div>
+    <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
   </header>
 
   <div class="section">
@@ -237,7 +246,7 @@ INDEX_HTML = f"""<!doctype html>
       <h2>🏆 今日成交量 Top 10</h2>
       <span class="badge">單位:張(1張=1000股)</span>
     </div>
-    <div class="card-grid">
+    <div class="card-grid" id="top10-cards">
       {stock_cards(D['top100_by_volume'], 10)}
     </div>
     <a class="cta" href="top100.html">查看今日成交量前 100 名 →</a>
@@ -257,7 +266,7 @@ INDEX_HTML = f"""<!doctype html>
           <th style="text-align:right">收盤價</th><th style="text-align:right">漲跌幅</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="ratio-tbody">
         {ratio_table(D['top10_by_ratio'])}
       </tbody>
     </table>
@@ -288,6 +297,7 @@ TOP100_HTML = f"""<!doctype html>
   <header class="top">
     <h1>今日成交量 Top 100</h1>
     <div class="sub">交易日:<b>{D['today']}</b> ・ 資料來源:證交所每日收盤行情(MI_INDEX)</div>
+    <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
   </header>
   <div class="table-scroll">
   <table>
@@ -297,7 +307,7 @@ TOP100_HTML = f"""<!doctype html>
         <th style="text-align:right">成交量</th><th style="text-align:right">收盤價</th><th style="text-align:right">漲跌幅</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="top100-tbody">
       {top100_rows(D['top100_by_volume'])}
     </tbody>
   </table>

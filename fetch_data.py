@@ -120,6 +120,28 @@ def main():
 
     print(f"完成,共 {len(today_data)} 檔股票,已寫入 data.json")
 
+    # baseline.json:給盤中即時代理(Cloudflare Worker)用的「最近三個已收盤交易日」總量,
+    # 涵蓋全部股票(不只Top100),做為明天盤中「爆量比」的分母基準。
+    day1_data = prev_days[0][1] if len(prev_days) > 0 else {}
+    day2_data = prev_days[1][1] if len(prev_days) > 1 else {}
+    baseline = {}
+    for code, info in today_data.items():
+        total = info["volume"]
+        total += day1_data.get(code, {}).get("volume", 0)
+        total += day2_data.get(code, {}).get("volume", 0)
+        baseline[code] = {"name": info["name"], "prev3_sum": total}
+
+    baseline_output = {
+        "as_of": today_str,
+        "days_included": [today_str] + [d for d, _ in prev_days[:2]],
+        "ratio_min_volume": RATIO_MIN_VOLUME,
+        "baseline": baseline,
+    }
+    with open("baseline.json", "w", encoding="utf-8") as f:
+        json.dump(baseline_output, f, ensure_ascii=False, separators=(",", ":"))
+
+    print(f"已寫入 baseline.json(供隔天盤中即時使用),涵蓋 {len(baseline)} 檔股票")
+
 
 if __name__ == "__main__":
     main()
