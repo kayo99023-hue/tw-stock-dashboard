@@ -28,6 +28,9 @@ jobs:
       - name: 抓個股歷史K線
         run: python fetch_history.py
 
+      - name: 計算大盤擇時訊號
+        run: python fetch_signal.py
+
       - name: 產生網頁
         run: python build_html.py
 

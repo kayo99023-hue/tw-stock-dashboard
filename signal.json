@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-18",
+  "generated_at": "2026-09-19 14:30:59",
+  "close": 47180.75,
+  "ma200": 38202.38,
+  "entry_line": 38966.42,
+  "exit_line": 37438.33,
+  "distance_to_exit_pct": 26.02,
+  "rv20": 18.13,
+  "rv_median": 24.13,
+  "is_calm": true,
+  "in_market": true,
+  "position": 1.7,
+  "prev_position": 1.7,
+  "changed": false,
+  "forward_test": null,
+  "config": {
+    "ma": 200,
+    "buffer_pct": 2.0,
+    "boost": 1.7,
+    "inception": "2026-09-19"
+  }
+}

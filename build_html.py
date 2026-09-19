@@ -5,6 +5,12 @@ import json
 with open("data.json", "r", encoding="utf-8") as f:
     D = json.load(f)
 
+try:
+    with open("signal.json", "r", encoding="utf-8") as f:
+        SIG = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    SIG = None
+
 CSS = """
 :root{
   --bg:#0f1420; --panel:#161d2e; --panel-2:#1c2438; --border:#2a3350;
@@ -118,6 +124,30 @@ tr.clickable-stock:hover{background:var(--panel-2);}
 .chart-container{width:100%; height:440px; margin-top:8px;}
 .chart-note{margin-top:10px; font-size:11.5px; color:var(--text-dim);}
 @media (max-width:640px){.chart-container{height:360px;} .chart-legend .lg-row{gap:8px; font-size:11.5px;}}
+
+/* -- 大盤擇時訊號 -- */
+.signal-box{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px 22px;}
+.signal-head{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:16px;}
+.signal-state{font-size:26px; font-weight:800; letter-spacing:.5px;}
+.signal-state.in{color:var(--up);} .signal-state.out{color:var(--text-dim);}
+.signal-lev{font-size:13px; padding:4px 12px; border-radius:999px; background:var(--panel-2);
+  border:1px solid var(--border); color:var(--text); font-weight:700;}
+.signal-chg{font-size:12.5px; padding:3px 10px; border-radius:999px; background:#4f8cff22;
+  border:1px solid #4f8cff55; color:#4f8cff;}
+.signal-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:14px;}
+@media (max-width:820px){.signal-grid{grid-template-columns:repeat(2,1fr);}}
+.signal-item{background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:12px 14px;}
+.signal-item .k{font-size:11.5px; color:var(--text-dim); margin-bottom:5px;}
+.signal-item .v{font-size:17px; font-weight:700; font-variant-numeric:tabular-nums;}
+.signal-item .v.dim{color:var(--text-dim); font-size:15px;}
+.signal-bar{height:8px; border-radius:999px; background:var(--panel-2); border:1px solid var(--border);
+  position:relative; overflow:hidden; margin:4px 0 14px;}
+.signal-bar > i{position:absolute; left:0; top:0; bottom:0;
+  background:linear-gradient(90deg,#2fbf71,#4f8cff); display:block;}
+.signal-note{font-size:12.5px; color:var(--text-dim); line-height:1.85;}
+.signal-note b{color:var(--text);}
+.signal-warn{margin-top:10px; padding:10px 12px; border-radius:8px; background:#ffc94d12;
+  border:1px solid #ffc94d44; color:#ffc94d; font-size:12.5px; line-height:1.8;}
 """
 
 SCRIPTS = """
@@ -222,6 +252,83 @@ def top100_rows(items):
     return "\n".join(rows)
 
 
+def signal_section():
+    """大盤擇時訊號區塊。沒有 signal.json 就回傳空字串(不影響原有頁面)。"""
+    if not SIG:
+        return ""
+    state_cls = "in" if SIG["in_market"] else "out"
+    state_txt = "持有中" if SIG["in_market"] else "空手觀望"
+    lev = f"{SIG['position']:g} 倍部位" if SIG["in_market"] else "不進場"
+    chg = (f'<span class="signal-chg">部位變動:{SIG["prev_position"]:g} → '
+           f'{SIG["position"]:g} 倍</span>') if SIG["changed"] else ""
+    dist = SIG["distance_to_exit_pct"]
+    pct = max(0, min(100, dist / 40 * 100))
+
+    fwd = SIG.get("forward_test")
+    if fwd:
+        ratio = f"{fwd['ratio']:.2f} 倍" if fwd.get("ratio") else "—"
+        s_cls = "up" if fwd["strategy_return"] >= 0 else "down"
+        m_cls = "up" if fwd["market_return"] >= 0 else "down"
+        fwd_html = f"""
+    <div class="signal-grid">
+      <div class="signal-item"><div class="k">前進測試 策略</div>
+        <div class="v {s_cls}">{fwd['strategy_return']:+.2f}%</div></div>
+      <div class="signal-item"><div class="k">同期大盤</div>
+        <div class="v {m_cls}">{fwd['market_return']:+.2f}%</div></div>
+      <div class="signal-item"><div class="k">倍數</div><div class="v">{ratio}</div></div>
+      <div class="signal-item"><div class="k">策略最大回撤</div>
+        <div class="v down">{fwd['max_drawdown']:.2f}%</div></div>
+    </div>
+    <div class="signal-note" style="margin-bottom:12px;">
+      前進測試自 <b>{fwd['start']}</b> 起算,已累積 <b>{fwd['days']}</b> 個交易日。
+    </div>"""
+    else:
+        fwd_html = f"""
+    <div class="signal-note" style="margin-bottom:12px;">
+      前進測試自 <b>{SIG['config']['inception']}</b> 起算,尚未累積足夠交易日。
+    </div>"""
+
+    return f"""
+  <div class="section">
+    <div class="section-title">
+      <h2>🎯 大盤擇時訊號<span class="badge" style="margin-left:8px;">加權指數 200日均線 + 波動率</span></h2>
+      <span class="note">資料日 {SIG['date']}</span>
+    </div>
+    <div class="signal-box">
+      <div class="signal-head">
+        <span class="signal-state {state_cls}">{state_txt}</span>
+        <span class="signal-lev">{lev}</span>
+        {chg}
+      </div>
+
+      <div class="signal-grid">
+        <div class="signal-item"><div class="k">加權指數收盤</div>
+          <div class="v">{SIG['close']:,.0f}</div></div>
+        <div class="signal-item"><div class="k">200日均線</div>
+          <div class="v dim">{SIG['ma200']:,.0f}</div></div>
+        <div class="signal-item"><div class="k">出場線(200MA −2%)</div>
+          <div class="v dim">{SIG['exit_line']:,.0f}</div></div>
+        <div class="signal-item"><div class="k">20日波動率</div>
+          <div class="v">{SIG['rv20']:.1f}%</div></div>
+      </div>
+
+      <div class="signal-note" style="margin-bottom:4px;">
+        距離出場線還有 <b>{dist:.1f}%</b>(指數需跌到 {SIG['exit_line']:,.0f} 才會轉為空手)
+      </div>
+      <div class="signal-bar"><i style="width:{pct:.0f}%"></i></div>
+{fwd_html}
+      <div class="signal-note">
+        <b>規則</b>:收盤站上 200 日均線 +2% 進場、跌破 200 日均線 −2% 出場,中間維持原狀不動作。
+        在場內時,若 20 日波動率低於過去一年中位數則加碼到 {SIG['config']['boost']:g} 倍,否則 1 倍。
+      </div>
+      <div class="signal-warn">
+        ⚠️ 這是回測得出的規則,不是投資建議。目前處於多頭,<b>防守機制尚未被實際行情檢驗過</b>,
+        真正的考驗要等到下一次大盤跌破均線才會出現。槓桿會同時放大獲利與虧損,請自行評估風險。
+      </div>
+    </div>
+  </div>"""
+
+
 INDEX_HTML = f"""<!doctype html>
 <html lang="zh-Hant">
 <head>
@@ -240,6 +347,8 @@ INDEX_HTML = f"""<!doctype html>
     </div>
     <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
   </header>
+
+  {signal_section()}
 
   <div class="section">
     <div class="section-title">
