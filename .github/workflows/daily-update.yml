@@ -31,8 +31,14 @@ jobs:
       - name: 計算大盤擇時訊號
         run: python fetch_signal.py
 
+      - name: 更新紙上交易帳本
+        run: python paper_trade.py
+
       - name: 產生網頁
         run: python build_html.py
+
+      - name: 產生紙上交易報告
+        run: python build_paper.py
 
       - name: 提交並推送(沒有變動就跳過)
         run: |

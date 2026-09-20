@@ -359,6 +359,7 @@ INDEX_HTML = f"""<!doctype html>
       {stock_cards(D['top100_by_volume'], 10)}
     </div>
     <a class="cta" href="top100.html">查看今日成交量前 100 名 →</a>
+    <a class="cta" href="paper.html">100 萬紙上交易實測(200MA 出場規則)→</a>
   </div>
 
   <div class="section">

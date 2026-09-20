@@ -1,0 +1,138 @@
+{
+  "generated_at": "2026-09-20 15:02:50",
+  "inception": "2026-09-21",
+  "initial_capital": 1000000,
+  "started": false,
+  "trading_days": 0,
+  "last_data_date": "2026-09-18",
+  "signal": {
+    "date": "2026-09-18",
+    "twii_close": 47180.75,
+    "ma200": 38202.38,
+    "exit_line": 37438.33,
+    "entry_line": 38966.42,
+    "distance_to_exit_pct": 26.02,
+    "hold": true,
+    "next_action": "維持持有"
+  },
+  "prices": {
+    "00631L.TW": {
+      "close": 37.65
+    },
+    "0050.TW": {
+      "close": 109.85
+    }
+  },
+  "twii_return_pct": null,
+  "accounts": {
+    "00631L_strategy": {
+      "history": [],
+      "trades": [],
+      "cash": 1000000,
+      "shares": 0,
+      "fee_sum": 0,
+      "tax_sum": 0,
+      "interest_sum": 0,
+      "margin_balance": 0,
+      "equity": 1000000,
+      "total_return_pct": 0.0,
+      "max_drawdown_pct": 0.0,
+      "label": "00631L + 200MA出場規則",
+      "ticker": "00631L.TW",
+      "use_rule": true
+    },
+    "00631L_bh": {
+      "history": [],
+      "trades": [],
+      "cash": 1000000,
+      "shares": 0,
+      "fee_sum": 0,
+      "tax_sum": 0,
+      "interest_sum": 0,
+      "margin_balance": 0,
+      "equity": 1000000,
+      "total_return_pct": 0.0,
+      "max_drawdown_pct": 0.0,
+      "label": "00631L 買進持有",
+      "ticker": "00631L.TW",
+      "use_rule": false
+    },
+    "0050_strategy": {
+      "history": [],
+      "trades": [],
+      "cash": 1000000,
+      "shares": 0,
+      "fee_sum": 0,
+      "tax_sum": 0,
+      "interest_sum": 0,
+      "margin_balance": 0,
+      "equity": 1000000,
+      "total_return_pct": 0.0,
+      "max_drawdown_pct": 0.0,
+      "label": "0050 + 200MA出場規則",
+      "ticker": "0050.TW",
+      "use_rule": true
+    },
+    "0050_bh": {
+      "history": [],
+      "trades": [],
+      "cash": 1000000,
+      "shares": 0,
+      "fee_sum": 0,
+      "tax_sum": 0,
+      "interest_sum": 0,
+      "margin_balance": 0,
+      "equity": 1000000,
+      "total_return_pct": 0.0,
+      "max_drawdown_pct": 0.0,
+      "label": "0050 買進持有",
+      "ticker": "0050.TW",
+      "use_rule": false
+    }
+  },
+  "config": {
+    "ma": 200,
+    "buffer_pct": 2.0,
+    "fee_rate_pct": 0.14250000000000002,
+    "fee_discount": 1.0,
+    "fee_min": 20,
+    "tax_rate_pct": 0.1,
+    "margin_ratio": 0.0,
+    "margin_annual_rate_pct": 6.5,
+    "execution": "T日收盤訊號,T+1日開盤成交"
+  },
+  "plan": {
+    "00631L_strategy": {
+      "label": "00631L + 200MA出場規則",
+      "price": 37.65,
+      "shares": 26522,
+      "amount": 998553,
+      "fee": 1423,
+      "cash_left": 24
+    },
+    "00631L_bh": {
+      "label": "00631L 買進持有",
+      "price": 37.65,
+      "shares": 26522,
+      "amount": 998553,
+      "fee": 1423,
+      "cash_left": 24
+    },
+    "0050_strategy": {
+      "label": "0050 + 200MA出場規則",
+      "price": 109.85,
+      "shares": 9090,
+      "amount": 998536,
+      "fee": 1423,
+      "cash_left": 41
+    },
+    "0050_bh": {
+      "label": "0050 買進持有",
+      "price": 109.85,
+      "shares": 9090,
+      "amount": 998536,
+      "fee": 1423,
+      "cash_left": 41
+    }
+  }
+}
