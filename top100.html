@@ -68,10 +68,17 @@ thead th{
 tbody td{padding:10px 14px; border-bottom:1px solid var(--border); font-size:14px;}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr:hover{background:var(--panel-2);}
-td.num{text-align:right; font-variant-numeric:tabular-nums;}
+td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap;}
 .up{color:var(--up);} .down{color:var(--down);}
 .rank-cell{width:40px; color:var(--text-dim); font-weight:700;}
 .rank-cell.r1{color:var(--gold);} .rank-cell.r2{color:var(--silver);} .rank-cell.r3{color:var(--bronze);}
+.inst-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+@media (max-width:820px){.inst-grid{grid-template-columns:1fr;}}
+.inst-panel{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:14px 16px 4px; overflow:hidden;}
+.inst-panel h3{margin:0 0 4px; font-size:15px; display:flex; align-items:center; gap:6px;}
+.inst-panel .inst-sub{font-size:12px; color:var(--text-dim); margin-bottom:10px;}
+.inst-panel table{min-width:0;}
+.inst-empty{color:var(--text-dim); font-size:13px; padding:12px 0 16px;}
 .backlink{display:inline-block; margin-bottom:18px; font-size:14px;}
 .cta{
   display:inline-flex; align-items:center; gap:6px; margin-top:6px; font-size:13.5px;

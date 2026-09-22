@@ -68,10 +68,17 @@ thead th{
 tbody td{padding:10px 14px; border-bottom:1px solid var(--border); font-size:14px;}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr:hover{background:var(--panel-2);}
-td.num{text-align:right; font-variant-numeric:tabular-nums;}
+td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap;}
 .up{color:var(--up);} .down{color:var(--down);}
 .rank-cell{width:40px; color:var(--text-dim); font-weight:700;}
 .rank-cell.r1{color:var(--gold);} .rank-cell.r2{color:var(--silver);} .rank-cell.r3{color:var(--bronze);}
+.inst-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+@media (max-width:820px){.inst-grid{grid-template-columns:1fr;}}
+.inst-panel{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:14px 16px 4px; overflow:hidden;}
+.inst-panel h3{margin:0 0 4px; font-size:15px; display:flex; align-items:center; gap:6px;}
+.inst-panel .inst-sub{font-size:12px; color:var(--text-dim); margin-bottom:10px;}
+.inst-panel table{min-width:0;}
+.inst-empty{color:var(--text-dim); font-size:13px; padding:12px 0 16px;}
 .backlink{display:inline-block; margin-bottom:18px; font-size:14px;}
 .cta{
   display:inline-flex; align-items:center; gap:6px; margin-top:6px; font-size:13.5px;
@@ -203,6 +210,65 @@ tr.clickable-stock:hover{background:var(--panel-2);}
         ⚠️ 這是回測得出的規則,不是投資建議。目前處於多頭,<b>防守機制尚未被實際行情檢驗過</b>,
         真正的考驗要等到下一次大盤跌破均線才會出現。槓桿會同時放大獲利與虧損,請自行評估風險。
       </div>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">
+      <h2>🏦 三大法人動向<span class="badge" style="margin-left:8px;">近 10 個交易日</span></h2>
+      <span class="note">資料日 2026-09-22</span>
+    </div>
+    <div class="inst-grid">
+      
+    <div class="inst-panel">
+      <h3>外資突然大買</h3>
+      <div class="inst-sub">今日外資買超創近10日新高</div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>代號</th><th>名稱</th><th style="text-align:right">外資買超</th><th style="text-align:right">投信買超</th></tr></thead>
+        <tbody><tr class="clickable-stock" data-code="2409" data-name="友達"><td>2409</td><td>友達</td><td class="num up">245,314 張</td><td class="num">-43 張</td></tr><tr class="clickable-stock" data-code="2303" data-name="聯電"><td>2303</td><td>聯電</td><td class="num up">50,545 張</td><td class="num">7,772 張</td></tr><tr class="clickable-stock" data-code="2886" data-name="兆豐金"><td>2886</td><td>兆豐金</td><td class="num up">12,736 張</td><td class="num">-4,781 張</td></tr><tr class="clickable-stock" data-code="6168" data-name="宏齊"><td>6168</td><td>宏齊</td><td class="num up">11,577 張</td><td class="num">0 張</td></tr><tr class="clickable-stock" data-code="4958" data-name="臻鼎-KY"><td>4958</td><td>臻鼎-KY</td><td class="num up">9,733 張</td><td class="num">1,130 張</td></tr><tr class="clickable-stock" data-code="3189" data-name="景碩"><td>3189</td><td>景碩</td><td class="num up">8,472 張</td><td class="num">179 張</td></tr><tr class="clickable-stock" data-code="2327" data-name="國巨*"><td>2327</td><td>國巨*</td><td class="num up">7,871 張</td><td class="num">186 張</td></tr><tr class="clickable-stock" data-code="3016" data-name="嘉晶"><td>3016</td><td>嘉晶</td><td class="num up">6,315 張</td><td class="num">0 張</td></tr><tr class="clickable-stock" data-code="8046" data-name="南電"><td>8046</td><td>南電</td><td class="num up">5,863 張</td><td class="num">5 張</td></tr><tr class="clickable-stock" data-code="3037" data-name="欣興"><td>3037</td><td>欣興</td><td class="num up">5,131 張</td><td class="num">-82 張</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+      
+    <div class="inst-panel">
+      <h3>投信突然大買</h3>
+      <div class="inst-sub">今日投信買超創近10日新高</div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>代號</th><th>名稱</th><th style="text-align:right">投信買超</th><th style="text-align:right">外資買超</th></tr></thead>
+        <tbody><tr class="clickable-stock" data-code="2610" data-name="華航"><td>2610</td><td>華航</td><td class="num up">5,133 張</td><td class="num">5,252 張</td></tr><tr class="clickable-stock" data-code="8021" data-name="尖點"><td>8021</td><td>尖點</td><td class="num up">1,852 張</td><td class="num">-522 張</td></tr><tr class="clickable-stock" data-code="3711" data-name="日月光投控"><td>3711</td><td>日月光投控</td><td class="num up">1,163 張</td><td class="num">8,480 張</td></tr><tr class="clickable-stock" data-code="4958" data-name="臻鼎-KY"><td>4958</td><td>臻鼎-KY</td><td class="num up">1,130 張</td><td class="num">9,733 張</td></tr><tr class="clickable-stock" data-code="9907" data-name="統一實"><td>9907</td><td>統一實</td><td class="num up">461 張</td><td class="num">-520 張</td></tr><tr class="clickable-stock" data-code="3605" data-name="宏致"><td>3605</td><td>宏致</td><td class="num up">420 張</td><td class="num">-763 張</td></tr><tr class="clickable-stock" data-code="2504" data-name="國產"><td>2504</td><td>國產</td><td class="num up">406 張</td><td class="num">-1,190 張</td></tr><tr class="clickable-stock" data-code="2547" data-name="日勝生"><td>2547</td><td>日勝生</td><td class="num up">358 張</td><td class="num">-225 張</td></tr><tr class="clickable-stock" data-code="3005" data-name="神基"><td>3005</td><td>神基</td><td class="num up">335 張</td><td class="num">-692 張</td></tr><tr class="clickable-stock" data-code="2530" data-name="華建"><td>2530</td><td>華建</td><td class="num up">233 張</td><td class="num">14 張</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+      
+    <div class="inst-panel">
+      <h3>外資投信都買</h3>
+      <div class="inst-sub">今日外資、投信同時買超,依合計排序</div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>代號</th><th>名稱</th><th style="text-align:right">外資買超</th><th style="text-align:right">投信買超</th><th style="text-align:right">合計</th></tr></thead>
+        <tbody><tr class="clickable-stock" data-code="2303" data-name="聯電"><td>2303</td><td>聯電</td><td class="num up">50,545 張</td><td class="num up">7,772 張</td><td class="num up">58,317 張</td></tr><tr class="clickable-stock" data-code="2449" data-name="京元電子"><td>2449</td><td>京元電子</td><td class="num up">16,162 張</td><td class="num up">2,979 張</td><td class="num up">19,141 張</td></tr><tr class="clickable-stock" data-code="4958" data-name="臻鼎-KY"><td>4958</td><td>臻鼎-KY</td><td class="num up">9,733 張</td><td class="num up">1,130 張</td><td class="num up">10,862 張</td></tr><tr class="clickable-stock" data-code="2618" data-name="長榮航"><td>2618</td><td>長榮航</td><td class="num up">6,621 張</td><td class="num up">3,993 張</td><td class="num up">10,614 張</td></tr><tr class="clickable-stock" data-code="2610" data-name="華航"><td>2610</td><td>華航</td><td class="num up">5,252 張</td><td class="num up">5,133 張</td><td class="num up">10,385 張</td></tr><tr class="clickable-stock" data-code="3711" data-name="日月光投控"><td>3711</td><td>日月光投控</td><td class="num up">8,480 張</td><td class="num up">1,163 張</td><td class="num up">9,643 張</td></tr><tr class="clickable-stock" data-code="2892" data-name="第一金"><td>2892</td><td>第一金</td><td class="num up">9,026 張</td><td class="num up">171 張</td><td class="num up">9,198 張</td></tr><tr class="clickable-stock" data-code="3189" data-name="景碩"><td>3189</td><td>景碩</td><td class="num up">8,472 張</td><td class="num up">179 張</td><td class="num up">8,651 張</td></tr><tr class="clickable-stock" data-code="2327" data-name="國巨*"><td>2327</td><td>國巨*</td><td class="num up">7,871 張</td><td class="num up">186 張</td><td class="num up">8,057 張</td></tr><tr class="clickable-stock" data-code="8046" data-name="南電"><td>8046</td><td>南電</td><td class="num up">5,863 張</td><td class="num up">5 張</td><td class="num up">5,868 張</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+      
+    <div class="inst-panel">
+      <h3>連續買超</h3>
+      <div class="inst-sub">外資+投信合計連續買超(至少3天)</div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>代號</th><th>名稱</th><th style="text-align:right">連續天數</th><th style="text-align:right">期間合計</th></tr></thead>
+        <tbody><tr class="clickable-stock" data-code="2412" data-name="中華電"><td>2412</td><td>中華電</td><td class="num up">10 天</td><td class="num">68,416 張</td></tr><tr class="clickable-stock" data-code="3045" data-name="台灣大"><td>3045</td><td>台灣大</td><td class="num up">10 天</td><td class="num">24,137 張</td></tr><tr class="clickable-stock" data-code="2820" data-name="華票"><td>2820</td><td>華票</td><td class="num up">10 天</td><td class="num">15,524 張</td></tr><tr class="clickable-stock" data-code="2379" data-name="瑞昱"><td>2379</td><td>瑞昱</td><td class="num up">10 天</td><td class="num">10,350 張</td></tr><tr class="clickable-stock" data-code="3014" data-name="聯陽"><td>3014</td><td>聯陽</td><td class="num up">10 天</td><td class="num">4,094 張</td></tr><tr class="clickable-stock" data-code="6805" data-name="富世達"><td>6805</td><td>富世達</td><td class="num up">10 天</td><td class="num">2,341 張</td></tr><tr class="clickable-stock" data-code="2480" data-name="敦陽科"><td>2480</td><td>敦陽科</td><td class="num up">10 天</td><td class="num">1,006 張</td></tr><tr class="clickable-stock" data-code="5225" data-name="東科-KY"><td>5225</td><td>東科-KY</td><td class="num up">10 天</td><td class="num">657 張</td></tr><tr class="clickable-stock" data-code="9919" data-name="康那香"><td>9919</td><td>康那香</td><td class="num up">10 天</td><td class="num">383 張</td></tr><tr class="clickable-stock" data-code="3257" data-name="虹冠電"><td>3257</td><td>虹冠電</td><td class="num up">10 天</td><td class="num">331 張</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+    </div>
+    <div class="note" style="margin-top:10px; font-size:12.5px; line-height:1.8;">
+      資料來源:證交所三大法人買賣超日報(T86)。單位:張(1張=1000股)。
+      「外資」為外陸資與外資自營商合計,「突然大買」定義為今日買超金額是近期區間內的最高值。<br>
+      這是資金流向的觀察工具,不是漲跌預測——法人買超不保證股價會漲,請自行判斷風險。
     </div>
   </div>
 

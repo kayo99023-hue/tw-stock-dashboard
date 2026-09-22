@@ -11,6 +11,12 @@ try:
 except (FileNotFoundError, json.JSONDecodeError):
     SIG = None
 
+try:
+    with open("institutional.json", "r", encoding="utf-8") as f:
+        INST = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    INST = None
+
 CSS = """
 :root{
   --bg:#0f1420; --panel:#161d2e; --panel-2:#1c2438; --border:#2a3350;
@@ -75,10 +81,17 @@ thead th{
 tbody td{padding:10px 14px; border-bottom:1px solid var(--border); font-size:14px;}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr:hover{background:var(--panel-2);}
-td.num{text-align:right; font-variant-numeric:tabular-nums;}
+td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap;}
 .up{color:var(--up);} .down{color:var(--down);}
 .rank-cell{width:40px; color:var(--text-dim); font-weight:700;}
 .rank-cell.r1{color:var(--gold);} .rank-cell.r2{color:var(--silver);} .rank-cell.r3{color:var(--bronze);}
+.inst-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+@media (max-width:820px){.inst-grid{grid-template-columns:1fr;}}
+.inst-panel{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:14px 16px 4px; overflow:hidden;}
+.inst-panel h3{margin:0 0 4px; font-size:15px; display:flex; align-items:center; gap:6px;}
+.inst-panel .inst-sub{font-size:12px; color:var(--text-dim); margin-bottom:10px;}
+.inst-panel table{min-width:0;}
+.inst-empty{color:var(--text-dim); font-size:13px; padding:12px 0 16px;}
 .backlink{display:inline-block; margin-bottom:18px; font-size:14px;}
 .cta{
   display:inline-flex; align-items:center; gap:6px; margin-top:6px; font-size:13.5px;
@@ -252,6 +265,82 @@ def top100_rows(items):
     return "\n".join(rows)
 
 
+def fmt_lots(n):
+    return f"{n:,.0f} 張"
+
+
+def inst_row(code, name, cells):
+    """cells: [(html, css_class_or_None), ...] 已經格式化好的儲存格,由左到右。"""
+    tds = "".join(f'<td class="num{" " + c if c else ""}">{v}</td>' for v, c in cells)
+    return (f'<tr class="clickable-stock" data-code="{code}" data-name="{esc_attr(name)}">'
+           f'<td>{code}</td><td>{name}</td>{tds}</tr>')
+
+
+def inst_panel(title, note, header_cells, rows_html):
+    if not rows_html:
+        return f"""
+    <div class="inst-panel">
+      <h3>{title}</h3>
+      <div class="inst-sub">{note}</div>
+      <div class="inst-empty">今日沒有符合條件的股票。</div>
+    </div>"""
+    return f"""
+    <div class="inst-panel">
+      <h3>{title}</h3>
+      <div class="inst-sub">{note}</div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>代號</th><th>名稱</th>{header_cells}</tr></thead>
+        <tbody>{rows_html}</tbody>
+      </table>
+      </div>
+    </div>"""
+
+
+def institutional_section():
+    """三大法人動向區塊。沒有 institutional.json 就回傳空字串。"""
+    if not INST:
+        return ""
+
+    fs_rows = "".join(inst_row(x["code"], x["name"],
+        [(fmt_lots(x["lots"]), "up"), (fmt_lots(x["trust_lots"]), None)])
+        for x in INST["foreign_spike"])
+    ts_rows = "".join(inst_row(x["code"], x["name"],
+        [(fmt_lots(x["lots"]), "up"), (fmt_lots(x["foreign_lots"]), None)])
+        for x in INST["trust_spike"])
+    bb_rows = "".join(inst_row(x["code"], x["name"],
+        [(fmt_lots(x["foreign_lots"]), "up"), (fmt_lots(x["trust_lots"]), "up"),
+         (fmt_lots(x["combined_lots"]), "up")])
+        for x in INST["both_buying"])
+    sb_rows = "".join(inst_row(x["code"], x["name"],
+        [(f"{x['streak_days']} 天", "up"), (fmt_lots(x["streak_total_lots"]), None)])
+        for x in INST["streak_buying"])
+
+    return f"""
+  <div class="section">
+    <div class="section-title">
+      <h2>🏦 三大法人動向<span class="badge" style="margin-left:8px;">近 {INST['lookback_days']} 個交易日</span></h2>
+      <span class="note">資料日 {INST['date']}</span>
+    </div>
+    <div class="inst-grid">
+      {inst_panel("外資突然大買", f"今日外資買超創近{INST['lookback_days']}日新高",
+                  '<th style="text-align:right">外資買超</th><th style="text-align:right">投信買超</th>', fs_rows)}
+      {inst_panel("投信突然大買", f"今日投信買超創近{INST['lookback_days']}日新高",
+                  '<th style="text-align:right">投信買超</th><th style="text-align:right">外資買超</th>', ts_rows)}
+      {inst_panel("外資投信都買", "今日外資、投信同時買超,依合計排序",
+                  '<th style="text-align:right">外資買超</th><th style="text-align:right">投信買超</th>'
+                  '<th style="text-align:right">合計</th>', bb_rows)}
+      {inst_panel("連續買超", f"外資+投信合計連續買超(至少{INST['streak_min_days']}天)",
+                  '<th style="text-align:right">連續天數</th><th style="text-align:right">期間合計</th>', sb_rows)}
+    </div>
+    <div class="note" style="margin-top:10px; font-size:12.5px; line-height:1.8;">
+      資料來源:證交所三大法人買賣超日報(T86)。單位:張(1張=1000股)。
+      「外資」為外陸資與外資自營商合計,「突然大買」定義為今日買超金額是近期區間內的最高值。<br>
+      這是資金流向的觀察工具,不是漲跌預測——法人買超不保證股價會漲,請自行判斷風險。
+    </div>
+  </div>"""
+
+
 def signal_section():
     """大盤擇時訊號區塊。沒有 signal.json 就回傳空字串(不影響原有頁面)。"""
     if not SIG:
@@ -349,6 +438,8 @@ INDEX_HTML = f"""<!doctype html>
   </header>
 
   {signal_section()}
+
+  {institutional_section()}
 
   <div class="section">
     <div class="section-title">

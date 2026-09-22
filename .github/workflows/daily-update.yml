@@ -31,6 +31,9 @@ jobs:
       - name: 計算大盤擇時訊號
         run: python fetch_signal.py
 
+      - name: 計算三大法人動向
+        run: python fetch_institutional.py
+
       - name: 更新紙上交易帳本
         run: python paper_trade.py
 
