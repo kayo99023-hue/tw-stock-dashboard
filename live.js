@@ -113,7 +113,11 @@
       const now = new Intl.DateTimeFormat("zh-Hant", {
         timeZone: "Asia/Taipei", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
       }).format(new Date());
-      setStatus("live", `🔴 盤中即時更新中 ・ 最後更新 ${now}(每分鐘刷新)`);
+      if (isMarketHours()) {
+        setStatus("live", `🔴 盤中即時更新中 ・ 最後更新 ${now}(每分鐘刷新)`);
+      } else {
+        setStatus("idle", `⚪ 非盤中時段,已手動刷新一次(最後更新 ${now})`);
+      }
     } catch (e) {
       setStatus("error", "⚠️ 即時資料暫時無法取得,顯示為最近一次收盤資料");
       console.error("live update failed", e);
@@ -128,9 +132,28 @@
     doUpdate();
   }
 
+  async function manualRefresh() {
+    const btn = document.getElementById("refreshBtn");
+    if (btn) {
+      if (btn.disabled) return; // 避免連點造成重複請求
+      btn.disabled = true;
+      btn.classList.add("spinning");
+    }
+    try {
+      await doUpdate();
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.classList.remove("spinning");
+      }
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     poll();
     setInterval(poll, POLL_MS);
+    const btn = document.getElementById("refreshBtn");
+    if (btn) btn.addEventListener("click", manualRefresh);
   });
 
   // 手動測試用:在瀏覽器 Console 打 refreshLiveNow() 可以無視盤中時段限制,強制抓一次即時資料

@@ -20,13 +20,25 @@ header.top{margin-bottom:28px;}
 header.top h1{font-size:28px; margin:0 0 6px; font-weight:800; letter-spacing:0.5px;}
 header.top .sub{color:var(--text-dim); font-size:14px; line-height:1.8;}
 header.top .sub b{color:var(--text);}
+.header-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px;}
 .live-status{
-  display:inline-block; margin-top:10px; font-size:12.5px; padding:5px 12px; border-radius:999px;
+  display:inline-block; font-size:12.5px; padding:5px 12px; border-radius:999px;
   background:var(--panel-2); border:1px solid var(--border); color:var(--text-dim);
 }
 .live-status.live{color:var(--up); border-color:rgba(255,92,92,.4); background:rgba(255,92,92,.08);}
 .live-status.loading{color:var(--accent);}
 .live-status.error{color:#ffc94d;}
+.refresh-btn{
+  display:inline-flex; align-items:center; gap:6px; font-size:12.5px; padding:5px 14px;
+  border-radius:999px; border:1px solid var(--accent); background:rgba(79,140,255,.1);
+  color:var(--accent); cursor:pointer; font-family:inherit; transition:background .15s ease;
+}
+.refresh-btn:hover{background:rgba(79,140,255,.2);}
+.refresh-btn:disabled{opacity:.5; cursor:default;}
+.refresh-btn .spin{display:inline-block;}
+.refresh-btn.spinning .spin{animation:spin 0.8s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+.refresh-scope{font-size:11.5px; color:var(--text-dim);}
 a{color:var(--accent); text-decoration:none;}
 a:hover{text-decoration:underline;}
 .section{margin-top:36px;}
@@ -155,17 +167,24 @@ tr.clickable-stock:hover{background:var(--panel-2);}
   <header class="top">
     <h1>📊 台股每日成交量分析</h1>
     <div class="sub">
-      交易日:<b>2026-09-24</b> ・ 比較基準(近三個交易日):<b>2026-09-23, 2026-09-22, 2026-09-21</b><br>
-      資料來源:證交所每日收盤行情(MI_INDEX) ・ 共納入 <b>1085</b> 檔上市普通股 ・ 產生時間 2026-09-28 14:57:58
+      交易日:<b>2026-09-29</b> ・ 比較基準(近三個交易日):<b>2026-09-24, 2026-09-23, 2026-09-22</b><br>
+      資料來源:證交所每日收盤行情(MI_INDEX) ・ 共納入 <b>1087</b> 檔上市普通股 ・ 產生時間 2026-09-29 14:11:51
     </div>
-    <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
+    <div class="header-actions">
+      <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
+      <button id="refreshBtn" class="refresh-btn" type="button">
+        <span class="spin">🔄</span><span class="refresh-btn-label">重新整理</span>
+      </button>
+      <span class="refresh-scope">只刷新「成交量」與「爆量股」即時資料;
+        大盤訊號、法人動向、紙上交易為每日收盤後更新,不受此按鈕影響</span>
+    </div>
   </header>
 
   
   <div class="section">
     <div class="section-title">
       <h2>🎯 大盤擇時訊號<span class="badge" style="margin-left:8px;">加權指數 200日均線 + 波動率</span></h2>
-      <span class="note">資料日 2026-09-24</span>
+      <span class="note">資料日 2026-09-29</span>
     </div>
     <div class="signal-box">
       <div class="signal-head">
@@ -176,31 +195,31 @@ tr.clickable-stock:hover{background:var(--panel-2);}
 
       <div class="signal-grid">
         <div class="signal-item"><div class="k">加權指數收盤</div>
-          <div class="v">48,025</div></div>
+          <div class="v">47,632</div></div>
         <div class="signal-item"><div class="k">200日均線</div>
-          <div class="v dim">38,619</div></div>
+          <div class="v dim">38,719</div></div>
         <div class="signal-item"><div class="k">出場線(200MA −2%)</div>
-          <div class="v dim">37,847</div></div>
+          <div class="v dim">37,945</div></div>
         <div class="signal-item"><div class="k">20日波動率</div>
-          <div class="v">17.3%</div></div>
+          <div class="v">17.6%</div></div>
       </div>
 
       <div class="signal-note" style="margin-bottom:4px;">
-        距離出場線還有 <b>26.9%</b>(指數需跌到 37,847 才會轉為空手)
+        距離出場線還有 <b>25.5%</b>(指數需跌到 37,945 才會轉為空手)
       </div>
-      <div class="signal-bar"><i style="width:67%"></i></div>
+      <div class="signal-bar"><i style="width:64%"></i></div>
 
     <div class="signal-grid">
       <div class="signal-item"><div class="k">前進測試 策略</div>
-        <div class="v up">+1.04%</div></div>
+        <div class="v down">-0.37%</div></div>
       <div class="signal-item"><div class="k">同期大盤</div>
-        <div class="v up">+0.64%</div></div>
-      <div class="signal-item"><div class="k">倍數</div><div class="v">1.62 倍</div></div>
+        <div class="v down">-0.18%</div></div>
+      <div class="signal-item"><div class="k">倍數</div><div class="v">2.02 倍</div></div>
       <div class="signal-item"><div class="k">策略最大回撤</div>
-        <div class="v down">-0.47%</div></div>
+        <div class="v down">-1.85%</div></div>
     </div>
     <div class="signal-note" style="margin-bottom:12px;">
-      前進測試自 <b>2026-09-21</b> 起算,已累積 <b>4</b> 個交易日。
+      前進測試自 <b>2026-09-21</b> 起算,已累積 <b>5</b> 個交易日。
     </div>
       <div class="signal-note">
         <b>規則</b>:收盤站上 200 日均線 +2% 進場、跌破 200 日均線 −2% 出場,中間維持原狀不動作。
@@ -284,10 +303,10 @@ tr.clickable-stock:hover{background:var(--panel-2);}
           <div class="rankchip">1</div>
           <div class="code">2409</div>
           <div class="name">友達</div>
-          <div class="metric">542,503 張</div>
+          <div class="metric">537,926 張</div>
           <div class="price-row">
-            <span>34.20 元</span>
-            <span class="chg down">-1.44%</span>
+            <span>35.05 元</span>
+            <span class="chg up">+2.49%</span>
           </div>
           <div class="chart-hint">📈</div>
         </div>
@@ -297,10 +316,10 @@ tr.clickable-stock:hover{background:var(--panel-2);}
           <div class="rankchip">2</div>
           <div class="code">2303</div>
           <div class="name">聯電</div>
-          <div class="metric">157,009 張</div>
+          <div class="metric">110,397 張</div>
           <div class="price-row">
-            <span>154.00 元</span>
-            <span class="chg down">-3.75%</span>
+            <span>153.50 元</span>
+            <span class="chg down">-0.32%</span>
           </div>
           <div class="chart-hint">📈</div>
         </div>
@@ -310,101 +329,101 @@ tr.clickable-stock:hover{background:var(--panel-2);}
           <div class="rankchip">3</div>
           <div class="code">3481</div>
           <div class="name">群創</div>
-          <div class="metric">101,964 張</div>
+          <div class="metric">103,512 張</div>
           <div class="price-row">
-            <span>49.55 元</span>
-            <span class="chg down">-0.10%</span>
-          </div>
-          <div class="chart-hint">📈</div>
-        </div>
-
-        <div class="card  clickable-stock" data-code="6770" data-name="力積電">
-          <div class="rank">4</div>
-          <div class="rankchip">4</div>
-          <div class="code">6770</div>
-          <div class="name">力積電</div>
-          <div class="metric">95,568 張</div>
-          <div class="price-row">
-            <span>72.00 元</span>
-            <span class="chg down">-1.50%</span>
-          </div>
-          <div class="chart-hint">📈</div>
-        </div>
-
-        <div class="card  clickable-stock" data-code="8150" data-name="南茂">
-          <div class="rank">5</div>
-          <div class="rankchip">5</div>
-          <div class="code">8150</div>
-          <div class="name">南茂</div>
-          <div class="metric">83,883 張</div>
-          <div class="price-row">
-            <span>112.00 元</span>
-            <span class="chg up">+4.67%</span>
+            <span>49.75 元</span>
+            <span class="chg up">+0.40%</span>
           </div>
           <div class="chart-hint">📈</div>
         </div>
 
         <div class="card  clickable-stock" data-code="1303" data-name="南亞">
-          <div class="rank">6</div>
-          <div class="rankchip">6</div>
+          <div class="rank">4</div>
+          <div class="rankchip">4</div>
           <div class="code">1303</div>
           <div class="name">南亞</div>
-          <div class="metric">67,158 張</div>
+          <div class="metric">77,612 張</div>
           <div class="price-row">
-            <span>238.00 元</span>
-            <span class="chg up">+4.62%</span>
-          </div>
-          <div class="chart-hint">📈</div>
-        </div>
-
-        <div class="card  clickable-stock" data-code="2344" data-name="華邦電">
-          <div class="rank">7</div>
-          <div class="rankchip">7</div>
-          <div class="code">2344</div>
-          <div class="name">華邦電</div>
-          <div class="metric">51,226 張</div>
-          <div class="price-row">
-            <span>171.50 元</span>
-            <span class="chg down">-0.58%</span>
+            <span>247.00 元</span>
+            <span class="chg up">+3.78%</span>
           </div>
           <div class="chart-hint">📈</div>
         </div>
 
         <div class="card  clickable-stock" data-code="3016" data-name="嘉晶">
-          <div class="rank">8</div>
-          <div class="rankchip">8</div>
+          <div class="rank">5</div>
+          <div class="rankchip">5</div>
           <div class="code">3016</div>
           <div class="name">嘉晶</div>
-          <div class="metric">49,084 張</div>
+          <div class="metric">74,933 張</div>
           <div class="price-row">
-            <span>160.00 元</span>
-            <span class="chg up">+9.97%</span>
+            <span>172.50 元</span>
+            <span class="chg up">+7.81%</span>
           </div>
           <div class="chart-hint">📈</div>
         </div>
 
-        <div class="card  clickable-stock" data-code="1709" data-name="和益">
+        <div class="card  clickable-stock" data-code="6770" data-name="力積電">
+          <div class="rank">6</div>
+          <div class="rankchip">6</div>
+          <div class="code">6770</div>
+          <div class="name">力積電</div>
+          <div class="metric">62,697 張</div>
+          <div class="price-row">
+            <span>72.30 元</span>
+            <span class="chg up">+0.42%</span>
+          </div>
+          <div class="chart-hint">📈</div>
+        </div>
+
+        <div class="card  clickable-stock" data-code="8150" data-name="南茂">
+          <div class="rank">7</div>
+          <div class="rankchip">7</div>
+          <div class="code">8150</div>
+          <div class="name">南茂</div>
+          <div class="metric">52,566 張</div>
+          <div class="price-row">
+            <span>104.50 元</span>
+            <span class="chg down">-6.70%</span>
+          </div>
+          <div class="chart-hint">📈</div>
+        </div>
+
+        <div class="card  clickable-stock" data-code="1314" data-name="中石化">
+          <div class="rank">8</div>
+          <div class="rankchip">8</div>
+          <div class="code">1314</div>
+          <div class="name">中石化</div>
+          <div class="metric">47,475 張</div>
+          <div class="price-row">
+            <span>8.74 元</span>
+            <span class="chg down">-1.35%</span>
+          </div>
+          <div class="chart-hint">📈</div>
+        </div>
+
+        <div class="card  clickable-stock" data-code="2887" data-name="台新新光金">
           <div class="rank">9</div>
           <div class="rankchip">9</div>
-          <div class="code">1709</div>
-          <div class="name">和益</div>
-          <div class="metric">48,880 張</div>
+          <div class="code">2887</div>
+          <div class="name">台新新光金</div>
+          <div class="metric">46,368 張</div>
           <div class="price-row">
-            <span>43.50 元</span>
-            <span class="chg down">-9.94%</span>
+            <span>41.80 元</span>
+            <span class="chg down">-1.65%</span>
           </div>
           <div class="chart-hint">📈</div>
         </div>
 
-        <div class="card  clickable-stock" data-code="3576" data-name="聯合再生">
+        <div class="card  clickable-stock" data-code="2344" data-name="華邦電">
           <div class="rank">10</div>
           <div class="rankchip">10</div>
-          <div class="code">3576</div>
-          <div class="name">聯合再生</div>
-          <div class="metric">48,864 張</div>
+          <div class="code">2344</div>
+          <div class="name">華邦電</div>
+          <div class="metric">45,028 張</div>
           <div class="price-row">
-            <span>18.25 元</span>
-            <span class="chg up">+2.82%</span>
+            <span>174.00 元</span>
+            <span class="chg up">+1.46%</span>
           </div>
           <div class="chart-hint">📈</div>
         </div>
@@ -429,114 +448,114 @@ tr.clickable-stock:hover{background:var(--panel-2);}
       </thead>
       <tbody id="ratio-tbody">
         
-        <tr class="clickable-stock" data-code="6225" data-name="天瀚">
+        <tr class="clickable-stock" data-code="2020" data-name="美亞">
           <td class="rank-cell r1">1</td>
-          <td>6225</td>
-          <td>天瀚</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">4.48 倍</td>
-          <td class="num">2,847 張</td>
-          <td class="num">636 張</td>
-          <td class="num">50.40</td>
-          <td class="num up">+9.09%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="4566" data-name="時碩工業">
-          <td class="rank-cell r2">2</td>
-          <td>4566</td>
-          <td>時碩工業</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">2.80 倍</td>
-          <td class="num">7,828 張</td>
-          <td class="num">2,798 張</td>
-          <td class="num">74.30</td>
-          <td class="num up">+9.91%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="3518" data-name="柏騰">
-          <td class="rank-cell r3">3</td>
-          <td>3518</td>
-          <td>柏騰</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">2.41 倍</td>
-          <td class="num">7,184 張</td>
-          <td class="num">2,983 張</td>
-          <td class="num">34.00</td>
-          <td class="num up">+4.78%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="2342" data-name="茂矽">
-          <td class="rank-cell ">4</td>
-          <td>2342</td>
-          <td>茂矽</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">2.37 倍</td>
-          <td class="num">43,473 張</td>
-          <td class="num">18,321 張</td>
-          <td class="num">48.20</td>
-          <td class="num up">+3.99%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="1708" data-name="東鹼">
-          <td class="rank-cell ">5</td>
-          <td>1708</td>
-          <td>東鹼</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">1.87 倍</td>
-          <td class="num">7,343 張</td>
-          <td class="num">3,919 張</td>
-          <td class="num">52.30</td>
-          <td class="num up">+4.39%</td>
+          <td>2020</td>
+          <td>美亞</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">4.95 倍</td>
+          <td class="num">5,683 張</td>
+          <td class="num">1,149 張</td>
+          <td class="num">24.30</td>
+          <td class="num up">+9.95%</td>
         </tr>
 
         <tr class="clickable-stock" data-code="2032" data-name="新鋼">
-          <td class="rank-cell ">6</td>
+          <td class="rank-cell r2">2</td>
           <td>2032</td>
           <td>新鋼</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">1.86 倍</td>
-          <td class="num">3,574 張</td>
-          <td class="num">1,919 張</td>
-          <td class="num">18.55</td>
-          <td class="num up">+5.70%</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">2.29 倍</td>
+          <td class="num">12,254 張</td>
+          <td class="num">5,340 張</td>
+          <td class="num">19.90</td>
+          <td class="num up">+7.28%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="1809" data-name="中釉">
+          <td class="rank-cell r3">3</td>
+          <td>1809</td>
+          <td>中釉</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.68 倍</td>
+          <td class="num">29,603 張</td>
+          <td class="num">17,661 張</td>
+          <td class="num">45.00</td>
+          <td class="num down">-0.77%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6414" data-name="樺漢">
+          <td class="rank-cell ">4</td>
+          <td>6414</td>
+          <td>樺漢</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.64 倍</td>
+          <td class="num">3,515 張</td>
+          <td class="num">2,142 張</td>
+          <td class="num">398.00</td>
+          <td class="num up">+6.42%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2614" data-name="東森">
+          <td class="rank-cell ">5</td>
+          <td>2614</td>
+          <td>東森</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.60 倍</td>
+          <td class="num">2,851 張</td>
+          <td class="num">1,778 張</td>
+          <td class="num">18.85</td>
+          <td class="num up">+3.29%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3060" data-name="銘異">
+          <td class="rank-cell ">6</td>
+          <td>3060</td>
+          <td>銘異</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.53 倍</td>
+          <td class="num">2,082 張</td>
+          <td class="num">1,359 張</td>
+          <td class="num">27.45</td>
+          <td class="num up">+3.39%</td>
         </tr>
 
         <tr class="clickable-stock" data-code="6155" data-name="鈞寶">
           <td class="rank-cell ">7</td>
           <td>6155</td>
           <td>鈞寶</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">1.82 倍</td>
-          <td class="num">3,762 張</td>
-          <td class="num">2,063 張</td>
-          <td class="num">60.20</td>
-          <td class="num up">+7.12%</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.42 倍</td>
+          <td class="num">7,300 張</td>
+          <td class="num">5,123 張</td>
+          <td class="num">64.00</td>
+          <td class="num up">+6.31%</td>
         </tr>
 
-        <tr class="clickable-stock" data-code="2025" data-name="千興">
+        <tr class="clickable-stock" data-code="6901" data-name="鑽石投資">
           <td class="rank-cell ">8</td>
-          <td>2025</td>
-          <td>千興</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">1.79 倍</td>
-          <td class="num">1,899 張</td>
-          <td class="num">1,061 張</td>
-          <td class="num">13.10</td>
-          <td class="num up">+3.56%</td>
+          <td>6901</td>
+          <td>鑽石投資</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.38 倍</td>
+          <td class="num">4,795 張</td>
+          <td class="num">3,465 張</td>
+          <td class="num">17.25</td>
+          <td class="num up">+9.87%</td>
         </tr>
 
-        <tr class="clickable-stock" data-code="2636" data-name="台驊控股">
+        <tr class="clickable-stock" data-code="2617" data-name="台航">
           <td class="rank-cell ">9</td>
-          <td>2636</td>
-          <td>台驊控股</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">1.57 倍</td>
-          <td class="num">1,009 張</td>
-          <td class="num">642 張</td>
-          <td class="num">71.90</td>
-          <td class="num up">+1.55%</td>
+          <td>2617</td>
+          <td>台航</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.33 倍</td>
+          <td class="num">2,290 張</td>
+          <td class="num">1,718 張</td>
+          <td class="num">31.25</td>
+          <td class="num down">-4.73%</td>
         </tr>
 
-        <tr class="clickable-stock" data-code="6205" data-name="詮欣">
+        <tr class="clickable-stock" data-code="6695" data-name="芯鼎">
           <td class="rank-cell ">10</td>
-          <td>6205</td>
-          <td>詮欣</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">1.49 倍</td>
-          <td class="num">11,481 張</td>
-          <td class="num">7,699 張</td>
-          <td class="num">73.60</td>
-          <td class="num up">+2.22%</td>
+          <td>6695</td>
+          <td>芯鼎</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.32 倍</td>
+          <td class="num">1,226 張</td>
+          <td class="num">932 張</td>
+          <td class="num">54.10</td>
+          <td class="num up">+8.42%</td>
         </tr>
       </tbody>
     </table>

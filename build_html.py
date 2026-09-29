@@ -33,13 +33,25 @@ header.top{margin-bottom:28px;}
 header.top h1{font-size:28px; margin:0 0 6px; font-weight:800; letter-spacing:0.5px;}
 header.top .sub{color:var(--text-dim); font-size:14px; line-height:1.8;}
 header.top .sub b{color:var(--text);}
+.header-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px;}
 .live-status{
-  display:inline-block; margin-top:10px; font-size:12.5px; padding:5px 12px; border-radius:999px;
+  display:inline-block; font-size:12.5px; padding:5px 12px; border-radius:999px;
   background:var(--panel-2); border:1px solid var(--border); color:var(--text-dim);
 }
 .live-status.live{color:var(--up); border-color:rgba(255,92,92,.4); background:rgba(255,92,92,.08);}
 .live-status.loading{color:var(--accent);}
 .live-status.error{color:#ffc94d;}
+.refresh-btn{
+  display:inline-flex; align-items:center; gap:6px; font-size:12.5px; padding:5px 14px;
+  border-radius:999px; border:1px solid var(--accent); background:rgba(79,140,255,.1);
+  color:var(--accent); cursor:pointer; font-family:inherit; transition:background .15s ease;
+}
+.refresh-btn:hover{background:rgba(79,140,255,.2);}
+.refresh-btn:disabled{opacity:.5; cursor:default;}
+.refresh-btn .spin{display:inline-block;}
+.refresh-btn.spinning .spin{animation:spin 0.8s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+.refresh-scope{font-size:11.5px; color:var(--text-dim);}
 a{color:var(--accent); text-decoration:none;}
 a:hover{text-decoration:underline;}
 .section{margin-top:36px;}
@@ -434,7 +446,14 @@ INDEX_HTML = f"""<!doctype html>
       交易日:<b>{D['today']}</b> ・ 比較基準(近三個交易日):<b>{', '.join(D['prev_days'])}</b><br>
       資料來源:證交所每日收盤行情(MI_INDEX) ・ 共納入 <b>{D['total_stocks']}</b> 檔上市普通股 ・ 產生時間 {D['generated_at']}
     </div>
-    <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
+    <div class="header-actions">
+      <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
+      <button id="refreshBtn" class="refresh-btn" type="button">
+        <span class="spin">🔄</span><span class="refresh-btn-label">重新整理</span>
+      </button>
+      <span class="refresh-scope">只刷新「成交量」與「爆量股」即時資料;
+        大盤訊號、法人動向、紙上交易為每日收盤後更新,不受此按鈕影響</span>
+    </div>
   </header>
 
   {signal_section()}
@@ -498,7 +517,12 @@ TOP100_HTML = f"""<!doctype html>
   <header class="top">
     <h1>今日成交量 Top 100</h1>
     <div class="sub">交易日:<b>{D['today']}</b> ・ 資料來源:證交所每日收盤行情(MI_INDEX)</div>
-    <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
+    <div class="header-actions">
+      <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
+      <button id="refreshBtn" class="refresh-btn" type="button">
+        <span class="spin">🔄</span><span class="refresh-btn-label">重新整理</span>
+      </button>
+    </div>
   </header>
   <div class="table-scroll">
   <table>
