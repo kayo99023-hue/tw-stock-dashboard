@@ -12,7 +12,7 @@
  */
 
 const BASELINE_URL = "https://kayo99023-hue.github.io/tw-stock-dashboard/baseline.json";
-const RATIO_MIN_VOLUME_FALLBACK = 1000000;
+const RATIO_MIN_VOLUME_FALLBACK = 10000000; // 1萬張,與 fetch_data.py 的 RATIO_MIN_VOLUME 保持一致
 const CACHE_SECONDS = 55; // 避免每個訪客都觸發一次證交所查詢,同一分鐘內共用結果
 const BATCH_SIZE = 100;
 

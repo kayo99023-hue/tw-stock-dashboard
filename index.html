@@ -168,7 +168,7 @@ tr.clickable-stock:hover{background:var(--panel-2);}
     <h1>📊 台股每日成交量分析</h1>
     <div class="sub">
       交易日:<b>2026-09-30</b> ・ 比較基準(近三個交易日):<b>2026-09-29, 2026-09-24, 2026-09-23</b><br>
-      資料來源:證交所每日收盤行情(MI_INDEX) ・ 共納入 <b>1087</b> 檔上市普通股 ・ 產生時間 2026-09-30 13:21:05
+      資料來源:證交所每日收盤行情(MI_INDEX) ・ 共納入 <b>1087</b> 檔上市普通股 ・ 產生時間 2026-10-01 01:35:19
     </div>
     <div class="header-actions">
       <div id="liveStatus" class="live-status idle">⚪ 載入中…</div>
@@ -435,7 +435,7 @@ tr.clickable-stock:hover{background:var(--panel-2);}
   <div class="section">
     <div class="section-title">
       <h2>🔥 爆量股 Top 10<span class="badge" style="margin-left:8px;">今日量 ÷ 近三日總量</span></h2>
-      <span class="note">僅列今日成交量 ≥ 1,000 張 的股票,避免冷門股雜訊</span>
+      <span class="note">僅列今日成交量 ≥ 10,000 張 的股票,避免冷門股雜訊</span>
     </div>
     <div class="table-scroll">
     <table>
@@ -448,85 +448,8 @@ tr.clickable-stock:hover{background:var(--panel-2);}
       </thead>
       <tbody id="ratio-tbody">
         
-        <tr class="clickable-stock" data-code="6165" data-name="浪凡">
-          <td class="rank-cell r1">1</td>
-          <td>6165</td>
-          <td>浪凡</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">5.84 倍</td>
-          <td class="num">3,628 張</td>
-          <td class="num">622 張</td>
-          <td class="num">50.00</td>
-          <td class="num up">+2.35%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="3092" data-name="鴻碩">
-          <td class="rank-cell r2">2</td>
-          <td>3092</td>
-          <td>鴻碩</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">4.58 倍</td>
-          <td class="num">1,374 張</td>
-          <td class="num">300 張</td>
-          <td class="num">25.00</td>
-          <td class="num up">+9.89%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="3701" data-name="大眾控">
-          <td class="rank-cell r3">3</td>
-          <td>3701</td>
-          <td>大眾控</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">3.48 倍</td>
-          <td class="num">4,550 張</td>
-          <td class="num">1,309 張</td>
-          <td class="num">45.90</td>
-          <td class="num up">+9.94%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="3311" data-name="閎暉">
-          <td class="rank-cell ">4</td>
-          <td>3311</td>
-          <td>閎暉</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">3.15 倍</td>
-          <td class="num">4,651 張</td>
-          <td class="num">1,477 張</td>
-          <td class="num">41.05</td>
-          <td class="num up">+7.60%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="4526" data-name="東台">
-          <td class="rank-cell ">5</td>
-          <td>4526</td>
-          <td>東台</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">2.47 倍</td>
-          <td class="num">6,949 張</td>
-          <td class="num">2,811 張</td>
-          <td class="num">34.05</td>
-          <td class="num up">+5.91%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="3592" data-name="瑞鼎">
-          <td class="rank-cell ">6</td>
-          <td>3592</td>
-          <td>瑞鼎</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">2.45 倍</td>
-          <td class="num">1,755 張</td>
-          <td class="num">717 張</td>
-          <td class="num">237.50</td>
-          <td class="num up">+5.56%</td>
-        </tr>
-
-        <tr class="clickable-stock" data-code="8105" data-name="凌巨">
-          <td class="rank-cell ">7</td>
-          <td>8105</td>
-          <td>凌巨</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">2.37 倍</td>
-          <td class="num">8,120 張</td>
-          <td class="num">3,420 張</td>
-          <td class="num">16.35</td>
-          <td class="num up">+9.73%</td>
-        </tr>
-
         <tr class="clickable-stock" data-code="3673" data-name="TPK-KY">
-          <td class="rank-cell ">8</td>
+          <td class="rank-cell r1">1</td>
           <td>3673</td>
           <td>TPK-KY</td>
           <td class="num" style="color:var(--accent-2); font-weight:700;">2.07 倍</td>
@@ -536,26 +459,103 @@ tr.clickable-stock:hover{background:var(--panel-2);}
           <td class="num up">+9.90%</td>
         </tr>
 
-        <tr class="clickable-stock" data-code="2483" data-name="百容">
-          <td class="rank-cell ">9</td>
-          <td>2483</td>
-          <td>百容</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">2.00 倍</td>
-          <td class="num">1,703 張</td>
-          <td class="num">853 張</td>
-          <td class="num">35.75</td>
-          <td class="num up">+10.00%</td>
+        <tr class="clickable-stock" data-code="3543" data-name="州巧">
+          <td class="rank-cell r2">2</td>
+          <td>3543</td>
+          <td>州巧</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.73 倍</td>
+          <td class="num">10,697 張</td>
+          <td class="num">6,170 張</td>
+          <td class="num">51.20</td>
+          <td class="num up">+1.99%</td>
         </tr>
 
-        <tr class="clickable-stock" data-code="6142" data-name="友勁">
+        <tr class="clickable-stock" data-code="1605" data-name="華新">
+          <td class="rank-cell r3">3</td>
+          <td>1605</td>
+          <td>華新</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.55 倍</td>
+          <td class="num">42,069 張</td>
+          <td class="num">27,170 張</td>
+          <td class="num">38.40</td>
+          <td class="num up">+5.64%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6120" data-name="達運">
+          <td class="rank-cell ">4</td>
+          <td>6120</td>
+          <td>達運</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.49 倍</td>
+          <td class="num">13,054 張</td>
+          <td class="num">8,746 張</td>
+          <td class="num">14.35</td>
+          <td class="num up">+9.96%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="6133" data-name="金橋">
+          <td class="rank-cell ">5</td>
+          <td>6133</td>
+          <td>金橋</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.29 倍</td>
+          <td class="num">20,089 張</td>
+          <td class="num">15,624 張</td>
+          <td class="num">29.60</td>
+          <td class="num up">+3.86%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2340" data-name="台亞">
+          <td class="rank-cell ">6</td>
+          <td>2340</td>
+          <td>台亞</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.24 倍</td>
+          <td class="num">34,478 張</td>
+          <td class="num">27,852 張</td>
+          <td class="num">40.80</td>
+          <td class="num up">+7.37%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="2323" data-name="中環">
+          <td class="rank-cell ">7</td>
+          <td>2323</td>
+          <td>中環</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.23 倍</td>
+          <td class="num">14,064 張</td>
+          <td class="num">11,463 張</td>
+          <td class="num">11.00</td>
+          <td class="num up">+2.80%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3576" data-name="聯合再生">
+          <td class="rank-cell ">8</td>
+          <td>3576</td>
+          <td>聯合再生</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.20 倍</td>
+          <td class="num">86,571 張</td>
+          <td class="num">71,853 張</td>
+          <td class="num">19.70</td>
+          <td class="num up">+9.75%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3149" data-name="正達">
+          <td class="rank-cell ">9</td>
+          <td>3149</td>
+          <td>正達</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.20 倍</td>
+          <td class="num">18,806 張</td>
+          <td class="num">15,659 張</td>
+          <td class="num">74.00</td>
+          <td class="num up">+9.96%</td>
+        </tr>
+
+        <tr class="clickable-stock" data-code="3481" data-name="群創">
           <td class="rank-cell ">10</td>
-          <td>6142</td>
-          <td>友勁</td>
-          <td class="num" style="color:var(--accent-2); font-weight:700;">1.81 倍</td>
-          <td class="num">1,278 張</td>
-          <td class="num">706 張</td>
-          <td class="num">9.44</td>
-          <td class="num up">+4.19%</td>
+          <td>3481</td>
+          <td>群創</td>
+          <td class="num" style="color:var(--accent-2); font-weight:700;">1.14 倍</td>
+          <td class="num">486,059 張</td>
+          <td class="num">425,484 張</td>
+          <td class="num">54.70</td>
+          <td class="num up">+9.95%</td>
         </tr>
       </tbody>
     </table>

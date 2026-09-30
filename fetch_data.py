@@ -15,7 +15,7 @@ import requests
 TWSE_URL = "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX"
 PROXY_URL = "https://tw-stock-live.kayo99023.workers.dev/proxy"
 STOCK_CODE_RE = re.compile(r"^[1-9][0-9]{3}$")  # 一般普通股:4碼數字、不以0開頭(排除ETF/受益證券)
-RATIO_MIN_VOLUME = 1_000_000  # 爆量排名的最低今日成交股數門檻,避免冷門股雜訊
+RATIO_MIN_VOLUME = 10_000_000  # 爆量排名的最低今日成交股數門檻(1萬張),避免冷門股雜訊
 
 
 def fetch_json_with_fallback(url, params):
