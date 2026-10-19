@@ -1,12 +1,12 @@
 {
-  "date": "2026-10-16",
-  "generated_at": "2026-10-16 12:07:05",
-  "close": 47111.26,
-  "ma200": 39962.93,
-  "entry_line": 40762.18,
-  "exit_line": 39163.67,
-  "distance_to_exit_pct": 20.29,
-  "rv20": 20.52,
+  "date": "2026-10-19",
+  "generated_at": "2026-10-19 14:21:46",
+  "close": 46822.08,
+  "ma200": 40059.41,
+  "entry_line": 40860.6,
+  "exit_line": 39258.22,
+  "distance_to_exit_pct": 19.27,
+  "rv20": 20.6,
   "rv_median": 24.13,
   "is_calm": true,
   "in_market": true,
@@ -14,12 +14,12 @@
   "prev_position": 1.7,
   "changed": false,
   "forward_test": {
-    "days": 17,
+    "days": 18,
     "start": "2026-09-21",
-    "strategy_return": -2.36,
-    "market_return": -1.27,
-    "ratio": 1.85,
-    "max_drawdown": -9.63
+    "strategy_return": -3.38,
+    "market_return": -1.88,
+    "ratio": 1.8,
+    "max_drawdown": -10.12
   },
   "config": {
     "ma": 200,
