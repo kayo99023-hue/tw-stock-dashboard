@@ -1,233 +1,233 @@
 {
-  "generated_at": "2026-10-20 12:33:52",
-  "date": "2026-10-20",
+  "generated_at": "2026-10-21 12:44:21",
+  "date": "2026-10-21",
   "lookback_days": 10,
   "spike_min_lots": 50,
   "streak_min_days": 3,
   "foreign_spike": [
     {
       "rank": 1,
-      "code": "3231",
-      "name": "緯創",
-      "lots": 32813.179,
-      "trust_lots": 8333.486
+      "code": "2409",
+      "name": "友達",
+      "lots": 44547.572,
+      "trust_lots": 3309.495
     },
     {
       "rank": 2,
-      "code": "6505",
-      "name": "台塑化",
-      "lots": 11723.302,
-      "trust_lots": -11130.552
+      "code": "2317",
+      "name": "鴻海",
+      "lots": 30172.28,
+      "trust_lots": 397.857
     },
     {
       "rank": 3,
-      "code": "2356",
-      "name": "英業達",
-      "lots": 8067.972,
-      "trust_lots": -1213.011
+      "code": "1303",
+      "name": "南亞",
+      "lots": 24165.406,
+      "trust_lots": 185.7
     },
     {
       "rank": 4,
-      "code": "2382",
-      "name": "廣達",
-      "lots": 3170.831,
-      "trust_lots": 401.52
+      "code": "6505",
+      "name": "台塑化",
+      "lots": 11787.99,
+      "trust_lots": -311.0
     },
     {
       "rank": 5,
-      "code": "3026",
-      "name": "禾伸堂",
-      "lots": 2880.776,
-      "trust_lots": 243.009
+      "code": "2489",
+      "name": "瑞軒",
+      "lots": 11053.767,
+      "trust_lots": 0.0
     },
     {
       "rank": 6,
-      "code": "4720",
-      "name": "德淵",
-      "lots": 2664.727,
-      "trust_lots": 0.0
+      "code": "2882",
+      "name": "國泰金",
+      "lots": 10328.71,
+      "trust_lots": 385.217
     },
     {
       "rank": 7,
-      "code": "1809",
-      "name": "中釉",
-      "lots": 2298.473,
-      "trust_lots": 60.0
+      "code": "2881",
+      "name": "富邦金",
+      "lots": 7002.45,
+      "trust_lots": 156.388
     },
     {
       "rank": 8,
-      "code": "2332",
-      "name": "友訊",
-      "lots": 2207.967,
-      "trust_lots": 0.0
+      "code": "1718",
+      "name": "中纖",
+      "lots": 5575.594,
+      "trust_lots": -491.0
     },
     {
       "rank": 9,
-      "code": "9933",
-      "name": "中鼎",
-      "lots": 2141.007,
-      "trust_lots": 0.852
+      "code": "2328",
+      "name": "廣宇",
+      "lots": 5038.738,
+      "trust_lots": 0.0
     },
     {
       "rank": 10,
-      "code": "2328",
-      "name": "廣宇",
-      "lots": 1939.827,
-      "trust_lots": 0.0
+      "code": "2382",
+      "name": "廣達",
+      "lots": 4119.264,
+      "trust_lots": 1101.739
     }
   ],
   "trust_spike": [
     {
       "rank": 1,
-      "code": "2002",
-      "name": "中鋼",
-      "lots": 11147.208,
-      "foreign_lots": 13459.052
+      "code": "2409",
+      "name": "友達",
+      "lots": 3309.495,
+      "foreign_lots": 44547.572
     },
     {
       "rank": 2,
-      "code": "3231",
-      "name": "緯創",
-      "lots": 8333.486,
-      "foreign_lots": 32813.179
+      "code": "2347",
+      "name": "聯強",
+      "lots": 1723.0,
+      "foreign_lots": -1155.054
     },
     {
       "rank": 3,
-      "code": "1101",
-      "name": "台泥",
-      "lots": 6418.767,
-      "foreign_lots": -3837.092
+      "code": "3706",
+      "name": "神達",
+      "lots": 1466.0,
+      "foreign_lots": -776.185
     },
     {
       "rank": 4,
-      "code": "2492",
-      "name": "華新科",
-      "lots": 3729.038,
-      "foreign_lots": -4794.289
+      "code": "2377",
+      "name": "微星",
+      "lots": 534.0,
+      "foreign_lots": -367.029
     },
     {
       "rank": 5,
-      "code": "2889",
-      "name": "國票金",
-      "lots": 3068.784,
-      "foreign_lots": -2435.248
+      "code": "1560",
+      "name": "中砂",
+      "lots": 532.0,
+      "foreign_lots": -677.944
     },
     {
       "rank": 6,
-      "code": "2449",
-      "name": "京元電子",
-      "lots": 2489.795,
-      "foreign_lots": -2813.451
+      "code": "2006",
+      "name": "東和鋼鐵",
+      "lots": 399.0,
+      "foreign_lots": 310.029
     },
     {
       "rank": 7,
-      "code": "5876",
-      "name": "上海商銀",
-      "lots": 2441.414,
-      "foreign_lots": -2653.573
+      "code": "8150",
+      "name": "南茂",
+      "lots": 333.0,
+      "foreign_lots": -1452.731
     },
     {
       "rank": 8,
-      "code": "2897",
-      "name": "王道銀行",
-      "lots": 1569.138,
-      "foreign_lots": -2502.0
+      "code": "4938",
+      "name": "和碩",
+      "lots": 328.0,
+      "foreign_lots": 4471.221
     },
     {
       "rank": 9,
-      "code": "2633",
-      "name": "台灣高鐵",
-      "lots": 1381.183,
-      "foreign_lots": -938.598
+      "code": "2360",
+      "name": "致茂",
+      "lots": 314.55,
+      "foreign_lots": -826.476
     },
     {
       "rank": 10,
-      "code": "9904",
-      "name": "寶成",
-      "lots": 1165.125,
-      "foreign_lots": 3214.973
+      "code": "6196",
+      "name": "帆宣",
+      "lots": 266.0,
+      "foreign_lots": -172.758
     }
   ],
   "both_buying": [
     {
       "rank": 1,
-      "code": "3231",
-      "name": "緯創",
-      "foreign_lots": 32813.179,
-      "trust_lots": 8333.486,
-      "combined_lots": 41146.66499999999
+      "code": "2409",
+      "name": "友達",
+      "foreign_lots": 44547.572,
+      "trust_lots": 3309.495,
+      "combined_lots": 47857.067
     },
     {
       "rank": 2,
-      "code": "2002",
-      "name": "中鋼",
-      "foreign_lots": 13459.052,
-      "trust_lots": 11147.208,
-      "combined_lots": 24606.260000000002
+      "code": "2317",
+      "name": "鴻海",
+      "foreign_lots": 30172.28,
+      "trust_lots": 397.857,
+      "combined_lots": 30570.137
     },
     {
       "rank": 3,
-      "code": "1802",
-      "name": "台玻",
-      "foreign_lots": 17677.503,
-      "trust_lots": 25.363,
-      "combined_lots": 17702.866
+      "code": "1303",
+      "name": "南亞",
+      "foreign_lots": 24165.406,
+      "trust_lots": 185.7,
+      "combined_lots": 24351.106
     },
     {
       "rank": 4,
-      "code": "2317",
-      "name": "鴻海",
-      "foreign_lots": 3853.759,
-      "trust_lots": 967.931,
-      "combined_lots": 4821.6900000000005
+      "code": "3231",
+      "name": "緯創",
+      "foreign_lots": 19915.38,
+      "trust_lots": 1881.914,
+      "combined_lots": 21797.294
     },
     {
       "rank": 5,
-      "code": "9904",
-      "name": "寶成",
-      "foreign_lots": 3214.973,
-      "trust_lots": 1165.125,
-      "combined_lots": 4380.098
+      "code": "3481",
+      "name": "群創",
+      "foreign_lots": 13782.153,
+      "trust_lots": 286.993,
+      "combined_lots": 14069.146
     },
     {
       "rank": 6,
-      "code": "2382",
-      "name": "廣達",
-      "foreign_lots": 3170.831,
-      "trust_lots": 401.52,
-      "combined_lots": 3572.351
+      "code": "2882",
+      "name": "國泰金",
+      "foreign_lots": 10328.71,
+      "trust_lots": 385.217,
+      "combined_lots": 10713.927
     },
     {
       "rank": 7,
-      "code": "3026",
-      "name": "禾伸堂",
-      "foreign_lots": 2880.776,
-      "trust_lots": 243.009,
-      "combined_lots": 3123.785
+      "code": "2002",
+      "name": "中鋼",
+      "foreign_lots": 6639.743,
+      "trust_lots": 2813.0,
+      "combined_lots": 9452.743
     },
     {
       "rank": 8,
-      "code": "1809",
-      "name": "中釉",
-      "foreign_lots": 2298.473,
-      "trust_lots": 60.0,
-      "combined_lots": 2358.473
+      "code": "2881",
+      "name": "富邦金",
+      "foreign_lots": 7002.45,
+      "trust_lots": 156.388,
+      "combined_lots": 7158.838
     },
     {
       "rank": 9,
-      "code": "2313",
-      "name": "華通",
-      "foreign_lots": 1356.615,
-      "trust_lots": 844.625,
-      "combined_lots": 2201.24
+      "code": "1101",
+      "name": "台泥",
+      "foreign_lots": 5462.667,
+      "trust_lots": 1616.0,
+      "combined_lots": 7078.667
     },
     {
       "rank": 10,
-      "code": "9933",
-      "name": "中鼎",
-      "foreign_lots": 2141.007,
-      "trust_lots": 0.852,
-      "combined_lots": 2141.859
+      "code": "2890",
+      "name": "永豐金",
+      "foreign_lots": 5076.72,
+      "trust_lots": 990.954,
+      "combined_lots": 6067.674
     }
   ],
   "streak_buying": [
@@ -236,80 +236,80 @@
       "code": "1216",
       "name": "統一",
       "streak_days": 10,
-      "streak_total_lots": 80515.79,
-      "today_lots": 181.26499999999987
+      "streak_total_lots": 82556.902,
+      "today_lots": 2778.335
     },
     {
       "rank": 2,
       "code": "9904",
       "name": "寶成",
       "streak_days": 10,
-      "streak_total_lots": 73297.272,
-      "today_lots": 4380.098
+      "streak_total_lots": 74598.617,
+      "today_lots": 1458.595
     },
     {
       "rank": 3,
-      "code": "2412",
-      "name": "中華電",
+      "code": "2801",
+      "name": "彰銀",
       "streak_days": 10,
-      "streak_total_lots": 43573.626000000004,
-      "today_lots": 1019.2840000000001
+      "streak_total_lots": 68202.75,
+      "today_lots": 10663.76
     },
     {
       "rank": 4,
-      "code": "6278",
-      "name": "台表科",
+      "code": "2412",
+      "name": "中華電",
       "streak_days": 10,
-      "streak_total_lots": 42920.738000000005,
-      "today_lots": 1703.6360000000002
+      "streak_total_lots": 41439.851,
+      "today_lots": 919.2
     },
     {
       "rank": 5,
-      "code": "2542",
-      "name": "興富發",
+      "code": "2027",
+      "name": "大成鋼",
       "streak_days": 10,
-      "streak_total_lots": 35761.107,
-      "today_lots": 4950.066000000001
+      "streak_total_lots": 35958.79,
+      "today_lots": 1649.121
     },
     {
       "rank": 6,
-      "code": "2912",
-      "name": "統一超",
+      "code": "2542",
+      "name": "興富發",
       "streak_days": 10,
-      "streak_total_lots": 21599.795,
-      "today_lots": 677.769
+      "streak_total_lots": 35938.093,
+      "today_lots": 701.8009999999999
     },
     {
       "rank": 7,
-      "code": "1477",
-      "name": "聚陽",
+      "code": "2105",
+      "name": "正新",
       "streak_days": 10,
-      "streak_total_lots": 7963.186,
-      "today_lots": 211.48600000000002
+      "streak_total_lots": 30375.453999999998,
+      "today_lots": 1331.059
     },
     {
       "rank": 8,
-      "code": "2023",
-      "name": "燁輝",
+      "code": "2912",
+      "name": "統一超",
       "streak_days": 10,
-      "streak_total_lots": 6579.925,
-      "today_lots": 176.95499999999998
+      "streak_total_lots": 21865.158,
+      "today_lots": 437.431
     },
     {
       "rank": 9,
-      "code": "8213",
-      "name": "志超",
+      "code": "1477",
+      "name": "聚陽",
       "streak_days": 10,
-      "streak_total_lots": 5853.488,
-      "today_lots": 743.09
+      "streak_total_lots": 7134.248,
+      "today_lots": 216.535
     },
     {
       "rank": 10,
-      "code": "6277",
-      "name": "宏正",
+      "code": "1808",
+      "name": "潤隆",
       "streak_days": 10,
-      "streak_total_lots": 3477.572,
-      "today_lots": 1206.671
+      "streak_total_lots": 6840.121,
+      "today_lots": 557.28
     }
   ]
 }

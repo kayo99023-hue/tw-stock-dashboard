@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-10-20 12:33:53",
+  "generated_at": "2026-10-21 12:44:22",
   "inception": "2026-09-21",
   "initial_capital": 1000000,
   "main": "00631L_margin_rule",
   "started": true,
-  "trading_days": 19,
-  "last_data_date": "2026-10-20",
+  "trading_days": 20,
+  "last_data_date": "2026-10-21",
   "signal": {
-    "date": "2026-10-20",
-    "twii_close": 46292.93,
-    "ma200": 40153.53,
-    "exit_line": 39350.46,
-    "entry_line": 40956.6,
-    "distance_to_exit_pct": 17.64,
+    "date": "2026-10-21",
+    "twii_close": 46887.77,
+    "ma200": 40249.49,
+    "exit_line": 39444.5,
+    "entry_line": 41054.48,
+    "distance_to_exit_pct": 18.87,
     "hold": true,
     "next_action": "維持持有"
   },
-  "twii_return_pct": -2.99,
+  "twii_return_pct": -1.74,
   "accounts": {
     "00631L_margin_rule": {
       "history": [
@@ -247,6 +247,18 @@
           "margin_ratio": 156.8,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-10-21",
+          "close": 36.61,
+          "shares": 65000,
+          "cash": 10568,
+          "market_value": 2379650,
+          "debt": 1486800,
+          "equity": 903418,
+          "margin_ratio": 160.1,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -264,16 +276,16 @@
       ],
       "cash": 10568,
       "shares": 65000,
-      "debt": 1486536,
+      "debt": 1486800,
       "fee_sum": 3512,
       "tax_sum": 0,
-      "interest_sum": 7656,
-      "margin_ratio": 156.8,
+      "interest_sum": 7920,
+      "margin_ratio": 160.1,
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 855583,
-      "total_return_pct": -14.44,
+      "equity": 903418,
+      "total_return_pct": -9.66,
       "max_drawdown_pct": -31.59,
       "ltv": 0.6,
       "label": "00631L 融資6成 + 出場規則",
@@ -509,6 +521,18 @@
           "margin_ratio": 156.8,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-10-21",
+          "close": 36.61,
+          "shares": 65000,
+          "cash": 10568,
+          "market_value": 2379650,
+          "debt": 1486800,
+          "equity": 903418,
+          "margin_ratio": 160.1,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -526,16 +550,16 @@
       ],
       "cash": 10568,
       "shares": 65000,
-      "debt": 1486536,
+      "debt": 1486800,
       "fee_sum": 3512,
       "tax_sum": 0,
-      "interest_sum": 7656,
-      "margin_ratio": 156.8,
+      "interest_sum": 7920,
+      "margin_ratio": 160.1,
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 855583,
-      "total_return_pct": -14.44,
+      "equity": 903418,
+      "total_return_pct": -9.66,
       "max_drawdown_pct": -31.59,
       "ltv": 0.6,
       "label": "00631L 融資6成 買進持有",
@@ -771,6 +795,18 @@
           "margin_ratio": null,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-10-21",
+          "close": 36.61,
+          "shares": 26333,
+          "cash": 30,
+          "market_value": 964051,
+          "debt": 0,
+          "equity": 964081,
+          "margin_ratio": null,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -796,8 +832,8 @@
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 944594,
-      "total_return_pct": -5.54,
+      "equity": 964081,
+      "total_return_pct": -3.59,
       "max_drawdown_pct": -14.37,
       "ltv": 0.0,
       "label": "00631L 現股 + 出場規則",
@@ -1033,6 +1069,18 @@
           "margin_ratio": null,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-10-21",
+          "close": 36.61,
+          "shares": 26333,
+          "cash": 30,
+          "market_value": 964051,
+          "debt": 0,
+          "equity": 964081,
+          "margin_ratio": null,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -1058,8 +1106,8 @@
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 944594,
-      "total_return_pct": -5.54,
+      "equity": 964081,
+      "total_return_pct": -3.59,
       "max_drawdown_pct": -14.37,
       "ltv": 0.0,
       "label": "00631L 現股 買進持有",
@@ -1295,6 +1343,18 @@
           "margin_ratio": 161.8,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-10-21",
+          "close": 108.15,
+          "shares": 22000,
+          "cash": 29435,
+          "market_value": 2379300,
+          "debt": 1458449,
+          "equity": 950286,
+          "margin_ratio": 163.1,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -1312,16 +1372,16 @@
       ],
       "cash": 29435,
       "shares": 22000,
-      "debt": 1458190,
+      "debt": 1458449,
       "fee_sum": 3445,
       "tax_sum": 0,
-      "interest_sum": 7510,
-      "margin_ratio": 161.8,
+      "interest_sum": 7769,
+      "margin_ratio": 163.1,
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 930745,
-      "total_return_pct": -6.93,
+      "equity": 950286,
+      "total_return_pct": -4.97,
       "max_drawdown_pct": -18.2,
       "ltv": 0.6,
       "label": "0050 融資6成 + 出場規則",
@@ -1557,6 +1617,18 @@
           "margin_ratio": null,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-10-21",
+          "close": 108.15,
+          "shares": 9086,
+          "cash": 26,
+          "market_value": 982651,
+          "debt": 0,
+          "equity": 982676,
+          "margin_ratio": null,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -1582,8 +1654,8 @@
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 974499,
-      "total_return_pct": -2.55,
+      "equity": 982676,
+      "total_return_pct": -1.73,
       "max_drawdown_pct": -7.94,
       "ltv": 0.0,
       "label": "0050 現股 買進持有",
