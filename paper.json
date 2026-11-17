@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-11-16 16:46:31",
+  "generated_at": "2026-11-17 16:42:03",
   "inception": "2026-09-21",
   "initial_capital": 1000000,
   "main": "00631L_margin_rule",
   "started": true,
-  "trading_days": 36,
-  "last_data_date": "2026-11-13",
+  "trading_days": 37,
+  "last_data_date": "2026-11-16",
   "signal": {
-    "date": "2026-11-13",
-    "twii_close": 43675.12,
-    "ma200": 41331.21,
-    "exit_line": 40504.58,
-    "entry_line": 42157.83,
-    "distance_to_exit_pct": 7.83,
+    "date": "2026-11-16",
+    "twii_close": 41040.08,
+    "ma200": 41381.7,
+    "exit_line": 40554.07,
+    "entry_line": 42209.33,
+    "distance_to_exit_pct": 1.2,
     "hold": true,
     "next_action": "維持持有"
   },
-  "twii_return_pct": -8.47,
+  "twii_return_pct": -14.0,
   "accounts": {
     "00631L_margin_rule": {
       "history": [
@@ -451,6 +451,18 @@
           "margin_ratio": 170.9,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-11-16",
+          "close": 27.95,
+          "shares": 10000,
+          "cash": 11690,
+          "market_value": 279500,
+          "debt": 186826,
+          "equity": 104364,
+          "margin_ratio": 149.6,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -512,17 +524,17 @@
       ],
       "cash": 11690,
       "shares": 10000,
-      "debt": 186726,
+      "debt": 186826,
       "fee_sum": 6963,
       "tax_sum": 1867,
-      "interest_sum": 12307,
-      "margin_ratio": 170.9,
+      "interest_sum": 12406,
+      "margin_ratio": 149.6,
       "call": false,
       "liquidations": 1,
       "dead": false,
-      "equity": 144163,
-      "total_return_pct": -85.58,
-      "max_drawdown_pct": -90.2,
+      "equity": 104364,
+      "total_return_pct": -89.56,
+      "max_drawdown_pct": -91.65,
       "ltv": 0.6,
       "label": "00631L 融資6成 + 出場規則",
       "ticker": "00631L.TW",
@@ -953,6 +965,18 @@
         {
           "date": "2026-11-13",
           "close": 31.92,
+          "shares": 0,
+          "cash": 104273,
+          "market_value": 0,
+          "debt": 0,
+          "equity": 104273,
+          "margin_ratio": null,
+          "call": false,
+          "in_market": false
+        },
+        {
+          "date": "2026-11-16",
+          "close": 27.95,
           "shares": 0,
           "cash": 104273,
           "market_value": 0,
@@ -1438,6 +1462,18 @@
           "margin_ratio": null,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-11-16",
+          "close": 27.95,
+          "shares": 23424,
+          "cash": 28,
+          "market_value": 654701,
+          "debt": 0,
+          "equity": 654729,
+          "margin_ratio": null,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -1485,9 +1521,9 @@
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 747722,
-      "total_return_pct": -25.23,
-      "max_drawdown_pct": -37.22,
+      "equity": 654729,
+      "total_return_pct": -34.53,
+      "max_drawdown_pct": -40.65,
       "ltv": 0.0,
       "label": "00631L 現股 + 出場規則",
       "ticker": "00631L.TW",
@@ -1926,6 +1962,18 @@
           "margin_ratio": null,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-11-16",
+          "close": 27.95,
+          "shares": 26333,
+          "cash": 30,
+          "market_value": 736007,
+          "debt": 0,
+          "equity": 736037,
+          "margin_ratio": null,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -1951,8 +1999,8 @@
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 840579,
-      "total_return_pct": -15.94,
+      "equity": 736037,
+      "total_return_pct": -26.4,
       "max_drawdown_pct": -37.22,
       "ltv": 0.0,
       "label": "00631L 現股 買進持有",
@@ -2392,6 +2440,18 @@
           "margin_ratio": 169.1,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-11-16",
+          "close": 96.45,
+          "shares": 16000,
+          "cash": 16538,
+          "market_value": 1543200,
+          "debt": 970464,
+          "equity": 589274,
+          "margin_ratio": 159.0,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -2431,17 +2491,17 @@
       ],
       "cash": 16538,
       "shares": 16000,
-      "debt": 969945,
+      "debt": 970464,
       "fee_sum": 8747,
       "tax_sum": 2104,
-      "interest_sum": 13057,
-      "margin_ratio": 169.1,
+      "interest_sum": 13575,
+      "margin_ratio": 159.0,
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 686592,
-      "total_return_pct": -31.34,
-      "max_drawdown_pct": -47.11,
+      "equity": 589274,
+      "total_return_pct": -41.07,
+      "max_drawdown_pct": -48.21,
       "ltv": 0.6,
       "label": "0050 融資6成 + 出場規則",
       "ticker": "0050.TW",
@@ -2880,6 +2940,18 @@
           "margin_ratio": null,
           "call": false,
           "in_market": true
+        },
+        {
+          "date": "2026-11-16",
+          "close": 96.45,
+          "shares": 9086,
+          "cash": 26,
+          "market_value": 876345,
+          "debt": 0,
+          "equity": 876370,
+          "margin_ratio": null,
+          "call": false,
+          "in_market": true
         }
       ],
       "trades": [
@@ -2905,8 +2977,8 @@
       "call": false,
       "liquidations": 0,
       "dead": false,
-      "equity": 931341,
-      "total_return_pct": -6.87,
+      "equity": 876370,
+      "total_return_pct": -12.36,
       "max_drawdown_pct": -20.6,
       "ltv": 0.0,
       "label": "0050 現股 買進持有",
