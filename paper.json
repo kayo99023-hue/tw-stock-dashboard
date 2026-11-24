@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23 18:59:48",
+  "generated_at": "2026-11-24 18:41:07",
   "inception": "2026-09-21",
   "initial_capital": 1000000,
   "main": "00631L_margin_rule",
@@ -7,16 +7,16 @@
   "trading_days": 42,
   "last_data_date": "2026-11-23",
   "signal": {
-    "date": "2026-11-20",
-    "twii_close": 36033.29,
-    "ma200": 41527.34,
-    "exit_line": 40696.8,
-    "entry_line": 42357.89,
-    "distance_to_exit_pct": -11.46,
+    "date": "2026-11-23",
+    "twii_close": 36811.89,
+    "ma200": 41555.17,
+    "exit_line": 40724.07,
+    "entry_line": 42386.27,
+    "distance_to_exit_pct": -9.61,
     "hold": false,
     "next_action": "出場(空手)"
   },
-  "twii_return_pct": -24.49,
+  "twii_return_pct": -22.86,
   "accounts": {
     "00631L_margin_rule": {
       "history": [
